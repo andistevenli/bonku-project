@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/View/Pages/Dashboard/dashboard_page.dart';
+import 'package:miniproject/View/Pages/Dashboard/dashboard_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,14 +20,22 @@ class MyApp extends StatelessWidget {
       800: Color(0xFF5D3891),
       900: Color(0xFF5D3891),
     });
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: myAppColor,
-        scaffoldBackgroundColor: Colors.white,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => DashboardViewModel(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: myAppColor,
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        routes: {
+          '/': (context) => const DashboardPage(),
+        },
       ),
-      routes: {},
     );
   }
 }
