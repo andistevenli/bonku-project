@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DashboardViewModel with ChangeNotifier {
   final supabase = Supabase.instance.client;
+  int utang = 0;
+  int pelanggan = 0;
 
   Future hitungTotalUtang() async {
     int total = 0;
     final List<dynamic> daftarSemuaUtang =
         await supabase.from('transaksi').select('utang');
+
     for (int i = 0; i < daftarSemuaUtang.length; i++) {
       total += int.parse(daftarSemuaUtang[i]
           .toString()
@@ -26,13 +28,13 @@ class DashboardViewModel with ChangeNotifier {
 
   ///mengembalikan nilai dari total utang semua pelanggan
   totalUtang() async {
-    final total = await hitungTotalUtang();
-    return total;
+    utang = await hitungTotalUtang();
+    notifyListeners();
   }
 
   ///mengembalikan nilai dari total pelanggan yang berutang
   totalPelanggan() async {
-    final total = await hitungTotalPelanggan();
-    return total;
+    pelanggan = await hitungTotalPelanggan();
+    notifyListeners();
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/View/Pages/Customer/create_customer.dart';
 import 'package:miniproject/View/Pages/Dashboard/dashboard_page.dart';
-import 'package:miniproject/View/Pages/Dashboard/dashboard_view_model.dart';
+import 'package:miniproject/View/View-Model/customer_view_model.dart';
+import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => DashboardViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CustomerViewModel(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (context) => const DashboardPage(),
+          CreateCustomer.routeName: (context) => const CreateCustomer(),
         },
       ),
     );

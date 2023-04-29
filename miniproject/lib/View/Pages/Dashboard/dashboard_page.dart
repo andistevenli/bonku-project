@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:miniproject/View/Pages/Dashboard/dashboard_view_model.dart';
+import 'package:miniproject/View/Pages/Customer/create_customer.dart';
+import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/statistic_box.dart';
 import 'package:provider/provider.dart';
@@ -16,29 +17,28 @@ class _DashboardPageState extends State<DashboardPage> {
   Buttons myButton = Buttons();
   StatisticBox myStatsBox = StatisticBox();
 
-  // final supabase = Supabase.instance.client;
-
-  // Future totalUtang() async {
-  //   int total = 0;
-  //   final List<dynamic> daftarSemuaUtang =
-  //       await supabase.from('transaksi').select('utang');
-  //   for (int i = 0; i < daftarSemuaUtang.length; i++) {
-  //     total += int.parse(daftarSemuaUtang[i]
-  //         .toString()
-  //         .substring(8, daftarSemuaUtang[i].toString().length - 1));
-  //   }
-  //   return total;
-  // }
+  provider(BuildContext context) {
+    final provider = Provider.of<DashboardViewModel>(context, listen: false);
+    provider.totalUtang();
+    provider.totalPelanggan();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<DashboardViewModel>(context, listen: false);
-
+    provider(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('KASBONKU'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider(context);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -47,20 +47,10 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  return FutureBuilder(
-                    future: dashboardProvider.totalUtang(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return myStatsBox.statsBox(
-                            context,
-                            'Total utang keseluruhan:',
-                            'Rp ${snapshot.data.toString()}');
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
+                  return myStatsBox.statsBox(
+                    context,
+                    'Total utang keseluruhan:',
+                    'Rp ${dashboardProvider.utang}',
                   );
                 },
               ),
@@ -69,21 +59,10 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  return FutureBuilder(
-                    future: dashboardProvider.totalPelanggan(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return myStatsBox.statsBox(
-                            context,
-                            'Total pelanggan yang berutang:',
-                            '${snapshot.data.toString()} Orang');
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  );
+                  return myStatsBox.statsBox(
+                      context,
+                      'Total pelanggan yang berutang:',
+                      '${dashboardProvider.pelanggan} Orang');
                 },
               ),
               const SizedBox(
@@ -110,7 +89,7 @@ class _DashboardPageState extends State<DashboardPage> {
               myButton.secondaryButton(
                 context: context,
                 onPressedEvent: () {
-                  //ke halaman lain
+                  Navigator.pushNamed(context, CreateCustomer.routeName);
                 },
                 icon: Icons.person_add,
                 label: 'Tambah Pelanggan',
