@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/create_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Pages/Dashboard/dashboard_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const DashboardPage(),
           CreateCustomerPage.routeName: (context) => const CreateCustomerPage(),
           CustomersListPage.routeName: (context) => const CustomersListPage(),
+          ChangeCustomerPage.routeName: (context) => const ChangeCustomerPage(),
         },
       ),
     );

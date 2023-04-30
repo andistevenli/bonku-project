@@ -3,7 +3,6 @@ import 'package:miniproject/Model/formatter.dart';
 import 'package:miniproject/View/View-Model/customer_view_model.dart';
 import 'package:miniproject/View/Widgets/list_tiles.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class CustomersListPage extends StatefulWidget {
   const CustomersListPage({super.key});
@@ -29,6 +28,14 @@ class _CustomersListPageState extends State<CustomersListPage> {
       appBar: AppBar(
         title: const Text('Daftar Pelanggan'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider(context);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
@@ -43,9 +50,6 @@ class _CustomersListPageState extends State<CustomersListPage> {
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  //ambil id pelanggan
-                  final int idPelanggan =
-                      customerProvider.daftarPelanggan[index]['id'];
                   //format tanggal
                   final DateTime dateTime = DateTime.parse(
                       customerProvider.daftarPelanggan[index]['created_at']);
@@ -60,6 +64,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
                     customerProvider.daftarPelanggan[index]['nama'],
                     uang,
                     tanggal,
+                    customerProvider.daftarPelanggan[index]['id'],
                   );
                 },
                 separatorBuilder: ((context, index) {

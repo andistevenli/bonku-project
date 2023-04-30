@@ -25,6 +25,14 @@ class CustomerViewModel with ChangeNotifier {
     });
   }
 
+  ///memperbaharui data pada tabel 'pelanggan'
+  changeCustomer(int id, String nama, int batasUtang) async {
+    await supabase.from('pelanggan').update({
+      'nama': nama,
+      'batas_utang': batasUtang,
+    }).eq('id', id);
+  }
+
   ///mendapatkan semua id dari tabel 'pelanggan'.
   Future captureAllId() async {
     final List<dynamic> daftarId =

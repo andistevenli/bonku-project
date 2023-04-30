@@ -99,8 +99,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 onPressedEvent: () {
                   Navigator.pushNamed(context, CustomersListPage.routeName);
                 },
-                icon: Icons.list,
-                label: 'Daftar Pelanggan',
+                icon: Icons.visibility,
+                label: 'Lihat Daftar Pelanggan',
               ),
               const SizedBox(
                 height: 20,
@@ -111,7 +111,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   Navigator.pushNamed(context, CreateCustomerPage.routeName);
                 },
                 icon: Icons.person_add,
-                label: 'Tambah Pelanggan',
+                label: 'Tambah Data Pelanggan',
               ),
             ],
           ),

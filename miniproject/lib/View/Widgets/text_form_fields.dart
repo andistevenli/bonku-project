@@ -5,6 +5,7 @@ class TextFormFields {
   final MyColors myColors = MyColors();
 
   TextFormField textFormField({
+    required bool enabled,
     required TextEditingController textEditingController,
     required TextInputType textInputType,
     required TextCapitalization textCapitalization,
@@ -15,6 +16,7 @@ class TextFormFields {
     required String? Function(String?)? validator,
   }) {
     return TextFormField(
+      enabled: enabled,
       controller: textEditingController,
       keyboardType: textInputType,
       textCapitalization: textCapitalization,

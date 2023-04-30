@@ -17,7 +17,6 @@ class DashboardViewModel with ChangeNotifier {
           .toString()
           .substring(8, daftarSemuaUtang[i].toString().length - 1));
     }
-    print(total);
     return total;
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
@@ -9,8 +10,9 @@ class ListTiles {
   ListTile customersListTile(
     BuildContext context,
     String title,
-    String batasUtang,
-    String tanggal,
+    String formatBatasUtang,
+    String formatTanggal,
+    int id,
   ) {
     return ListTile(
       visualDensity: const VisualDensity(vertical: 3),
@@ -38,7 +40,7 @@ class ListTiles {
           ),
           builder: (context) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.55,
               margin: const EdgeInsets.fromLTRB(24, 20, 24, 30),
               child: Column(
                 children: [
@@ -75,7 +77,7 @@ class ListTiles {
                         ),
                       ),
                       Text(
-                        tanggal,
+                        formatTanggal,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -97,7 +99,7 @@ class ListTiles {
                         ),
                       ),
                       Text(
-                        batasUtang,
+                        formatBatasUtang,
                         style: TextStyle(
                           fontSize: 18,
                           color: myColors.detailTextColor,
@@ -112,16 +114,18 @@ class ListTiles {
                   btn.secondaryButton(
                     context: context,
                     onPressedEvent: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   ChangeCustomer.routeName,
-                      //   arguments: ChangeCustomerArguments(
-                      //       namaPelanggan: title,
-                      //       nominalBatasUtang: batasUtang),
-                      // );
+                      Navigator.pushNamed(
+                        context,
+                        ChangeCustomerPage.routeName,
+                        arguments: ChangeCustomerArguments(
+                          idPelanggan: id,
+                          namaPelanggan: title,
+                          nominalBatasUtang: formatBatasUtang,
+                        ),
+                      );
                     },
                     icon: Icons.edit,
-                    label: 'Ubah Pelanggan',
+                    label: 'Ubah Data Pelanggan',
                   ),
                   const SizedBox(
                     height: 20,
@@ -139,7 +143,7 @@ class ListTiles {
                       // );
                     },
                     icon: Icons.visibility,
-                    label: 'Lihat Detail Utang',
+                    label: 'Lihat Utang',
                   ),
                   const SizedBox(
                     height: 20,

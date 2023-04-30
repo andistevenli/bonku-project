@@ -1,42 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:miniproject/View/View-Model/customer_view_model.dart';
+import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
+import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
-class CreateCustomerPage extends StatefulWidget {
-  const CreateCustomerPage({super.key});
-  static const routeName = '/createCustomerPage';
+import '../../View-Model/customer_view_model.dart';
+
+class ChangeCustomerPage extends StatefulWidget {
+  const ChangeCustomerPage({
+    super.key,
+  });
+
+  static const routeName = '/changeCustomerPage';
 
   @override
-  State<CreateCustomerPage> createState() => _CreateCustomerPageState();
+  State<ChangeCustomerPage> createState() => _ChangeCustomerState();
 }
 
-class _CreateCustomerPageState extends State<CreateCustomerPage> {
+class _ChangeCustomerState extends State<ChangeCustomerPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _namaPelangganController =
-      TextEditingController();
+  final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _batasUtangController = TextEditingController();
-  final TextEditingController _utangController = TextEditingController();
-  final TextEditingController _deskripsiController = TextEditingController();
-  final TextFormFields myTextformfield = TextFormFields();
-  final Buttons myButton = Buttons();
+
+  TextFormFields myTextFormField = TextFormFields();
+  Buttons myButton = Buttons();
+  MyColors myColors = MyColors();
 
   @override
   void dispose() {
-    _namaPelangganController.dispose();
+    _customerNameController.dispose();
     _batasUtangController.dispose();
-    _utangController.dispose();
-    _deskripsiController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ChangeCustomerArguments;
+
     final provider = Provider.of<CustomerViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Data Pelanggan'),
+        title: const Text('Ubah Data Pelanggan'),
         centerTitle: true,
       ),
       body: Padding(
@@ -45,19 +51,64 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
           key: _formKey,
           child: ListView(
             children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Atas nama',
+                    style: TextStyle(color: myColors.subInfoColor),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    args.namaPelanggan,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: myColors.primaryColor),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Batas utang: ',
+                    style: TextStyle(
+                      color: myColors.subInfoColor,
+                    ),
+                  ),
+                  Text(
+                    args.nominalBatasUtang,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: myColors.detailTextColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               const Text(
-                'Informasi Pelanggan:',
+                'Diubah menjadi:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 20,
               ),
-              myTextformfield.textFormField(
+              myTextFormField.textFormField(
                 enabled: true,
-                textEditingController: _namaPelangganController,
+                textEditingController: _customerNameController,
                 textInputType: TextInputType.name,
                 textCapitalization: TextCapitalization.words,
-                helperText: 'Ketikkan nama pelanggan yang ingin dibuat',
+                helperText: 'Ketikkan nama pelanggan yang ingin diganti',
                 hintText: 'Contoh: Budi Hartanto',
                 labelText: 'Nama Pelanggan',
                 icon: Icons.person,
@@ -82,7 +133,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               const SizedBox(
                 height: 20,
               ),
-              myTextformfield.textFormField(
+              myTextFormField.textFormField(
                 enabled: true,
                 textEditingController: _batasUtangController,
                 textInputType: TextInputType.number,
@@ -103,74 +154,27 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 },
               ),
               const SizedBox(
-                height: 50,
-              ),
-              const Text(
-                'Utang Awal:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
                 height: 20,
-              ),
-              myTextformfield.textFormField(
-                enabled: true,
-                textEditingController: _utangController,
-                textInputType: TextInputType.number,
-                textCapitalization: TextCapitalization.none,
-                helperText: 'Ketikkan nominal utang awal',
-                hintText: 'Contoh: 10000',
-                labelText: 'Utang',
-                icon: Icons.attach_money,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Utang tidak boleh kosong';
-                  } else {
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'hanya boleh diisi angka';
-                    }
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              myTextformfield.textFormField(
-                enabled: true,
-                textEditingController: _deskripsiController,
-                textInputType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                helperText: 'Ketikkan deskripsi utang (nama barang/transaksi)',
-                hintText: 'Contoh: Rokok Gudang Gula',
-                labelText: 'Deskripsi',
-                icon: Icons.money,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Batas utang tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 50,
               ),
               myButton.primaryButton(
                 context: context,
-                onPressedEvent: () async {
+                onPressedEvent: () {
                   if (_formKey.currentState!.validate()) {
-                    provider.addCustomer(
-                      _namaPelangganController.text,
+                    provider.changeCustomer(
+                      args.idPelanggan,
+                      _customerNameController.text,
                       int.parse(_batasUtangController.text),
-                      _deskripsiController.text,
-                      int.parse(_utangController.text),
                     );
                     if (context.mounted) {
-                      return Navigator.pop(context);
+                      return Navigator.popUntil(
+                        context,
+                        ModalRoute.withName(CustomersListPage.routeName),
+                      );
                     }
                   }
                 },
-                icon: Icons.person_add,
-                label: 'Tambah Data Pelanggan',
+                icon: Icons.edit,
+                label: 'Ubah Data Pelanggan',
               ),
             ],
           ),
@@ -178,4 +182,16 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
       ),
     );
   }
+}
+
+class ChangeCustomerArguments {
+  final int idPelanggan;
+  final String namaPelanggan;
+  final String nominalBatasUtang;
+
+  ChangeCustomerArguments({
+    required this.idPelanggan,
+    required this.namaPelanggan,
+    required this.nominalBatasUtang,
+  });
 }
