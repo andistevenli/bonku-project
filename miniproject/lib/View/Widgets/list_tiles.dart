@@ -175,7 +175,7 @@ class ListTiles {
                     label: 'Tambah Utang',
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
                   myButton.tertiaryButton(
                     context: context,
@@ -257,6 +257,7 @@ class ListTiles {
                     provider.deleteDebt(id);
                     provider.deleteCustomerIfNoDebtAnymore(id);
                   } else {
+                    provider.deleteDebt(id);
                     Navigator.pop(context);
                   }
                 },

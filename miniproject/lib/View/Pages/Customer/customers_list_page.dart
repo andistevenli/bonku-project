@@ -28,9 +28,17 @@ class _CustomersListPageState extends State<CustomersListPage> {
       appBar: AppBar(
         title: const Text('Daftar Pelanggan'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider(context);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+        padding: const EdgeInsets.all(24),
         child: Consumer<CustomerViewModel>(
           builder: (context, customerProvider, _) {
             customerProvider.getAllCustomers();

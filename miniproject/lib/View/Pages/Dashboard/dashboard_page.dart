@@ -33,6 +33,14 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: const Text('KASBONKU'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider(context);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),

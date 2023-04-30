@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/View-Model/debt_view_model.dart';
 import 'package:miniproject/View/Widgets/list_tiles.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:provider/provider.dart';
-
 import '../../../Model/formatter.dart';
 
 class DebtDetailsPage extends StatefulWidget {
@@ -35,9 +33,17 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
       appBar: AppBar(
         title: const Text('Detail Utang'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider(context, args.idPelanggan);
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+        padding: const EdgeInsets.all(24),
         child: ListView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
