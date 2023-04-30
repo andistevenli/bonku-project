@@ -66,4 +66,36 @@ class Buttons {
       ),
     );
   }
+
+  OutlinedButton tertiaryButton(
+      {required BuildContext context,
+      required void Function() onPressedEvent,
+      required IconData icon,
+      required String label}) {
+    return OutlinedButton.icon(
+      onPressed: onPressedEvent,
+      icon: Icon(
+        icon,
+        size: 20,
+        color: Colors.red,
+      ),
+      label: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.red,
+        ),
+      ),
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        side: const BorderSide(color: Colors.red, width: 2),
+        fixedSize: Size(MediaQuery.of(context).size.width, 70),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    );
+  }
 }

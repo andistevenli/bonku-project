@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
+import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Pages/Debt/add_debt_page.dart';
 import 'package:miniproject/View/Pages/Debt/debt_details_page.dart';
+import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
+import 'package:provider/provider.dart';
+import '../View-Model/customer_view_model.dart';
 
 class ListTiles {
   final MyColors myColors = MyColors();
   final Buttons myButton = Buttons();
+  final AlertDialogs myAlertDialog = AlertDialogs();
 
   ListTile customersListTile(
     BuildContext context,
@@ -16,6 +21,7 @@ class ListTiles {
     String formatTanggal,
     int id,
   ) {
+    final provider = Provider.of<CustomerViewModel>(context, listen: false);
     return ListTile(
       visualDensity: const VisualDensity(vertical: 3),
       title: Text(
@@ -164,6 +170,29 @@ class ListTiles {
                     },
                     icon: Icons.add,
                     label: 'Tambah Utang',
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  myButton.tertiaryButton(
+                    context: context,
+                    onPressedEvent: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => myAlertDialog.alertDialog(
+                          context,
+                          () {
+                            provider.deleteCustomer(id);
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(CustomersListPage.routeName),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    icon: Icons.delete,
+                    label: 'Hapus Data Pelanggan',
                   ),
                 ],
               ),

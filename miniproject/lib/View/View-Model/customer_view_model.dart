@@ -35,6 +35,13 @@ class CustomerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  ///menghapus data pada tabel 'pelanggan'
+  deleteCustomer(int id) async {
+    await supabase.from('transaksi').delete().eq('id_pelanggan', id);
+    await supabase.from('pelanggan').delete().eq('id', id);
+    notifyListeners();
+  }
+
   ///mendapatkan semua id dari tabel 'pelanggan'.
   Future captureAllId() async {
     final List<dynamic> daftarId =
