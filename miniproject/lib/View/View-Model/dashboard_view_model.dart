@@ -6,6 +6,7 @@ class DashboardViewModel with ChangeNotifier {
   int utang = 0;
   int pelanggan = 0;
 
+  ///menghitung nilai dari total utang semua pelanggan dari tabel 'transaksi'.
   Future hitungTotalUtang() async {
     int total = 0;
     final List<dynamic> daftarSemuaUtang =
@@ -16,9 +17,11 @@ class DashboardViewModel with ChangeNotifier {
           .toString()
           .substring(8, daftarSemuaUtang[i].toString().length - 1));
     }
+    print(total);
     return total;
   }
 
+  ///menghitung nilai dari total pelanggan yang berutang dari tabel 'pelanggan'.
   Future hitungTotalPelanggan() async {
     final daftarPelanggan = await supabase
         .from('pelanggan')

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
 class StatisticBox {
-  MyColors myColors = MyColors();
+  final MyColors myColors = MyColors();
 
   Container statsBox(BuildContext context, String label, String value) {
     return Container(

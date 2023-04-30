@@ -4,23 +4,23 @@ import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
-class CreateCustomer extends StatefulWidget {
-  const CreateCustomer({super.key});
-  static const routeName = '/createCustomer';
+class CreateCustomerPage extends StatefulWidget {
+  const CreateCustomerPage({super.key});
+  static const routeName = '/createCustomerPage';
 
   @override
-  State<CreateCustomer> createState() => _CreateCustomerState();
+  State<CreateCustomerPage> createState() => _CreateCustomerPageState();
 }
 
-class _CreateCustomerState extends State<CreateCustomer> {
+class _CreateCustomerPageState extends State<CreateCustomerPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _namaPelangganController =
       TextEditingController();
   final TextEditingController _batasUtangController = TextEditingController();
   final TextEditingController _utangController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
-  TextFormFields myTextformfield = TextFormFields();
-  Buttons myButton = Buttons();
+  final TextFormFields myTextformfield = TextFormFields();
+  final Buttons myButton = Buttons();
 
   @override
   void dispose() {
@@ -154,7 +154,7 @@ class _CreateCustomerState extends State<CreateCustomer> {
                 context: context,
                 onPressedEvent: () async {
                   if (_formKey.currentState!.validate()) {
-                    provider.tambahPelanggan(
+                    provider.addCustomer(
                       _namaPelangganController.text,
                       int.parse(_batasUtangController.text),
                       _deskripsiController.text,

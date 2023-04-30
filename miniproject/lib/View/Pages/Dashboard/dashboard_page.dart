@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:miniproject/View/Pages/Customer/create_customer.dart';
+import 'package:miniproject/Model/formatter.dart';
+import 'package:miniproject/View/Pages/Customer/create_customer_page.dart';
+import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/statistic_box.dart';
@@ -14,8 +16,9 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  Buttons myButton = Buttons();
-  StatisticBox myStatsBox = StatisticBox();
+  final Buttons myButton = Buttons();
+  final StatisticBox myStatsBox = StatisticBox();
+  final Formatter myFormatter = Formatter();
 
   provider(BuildContext context) {
     final provider = Provider.of<DashboardViewModel>(context, listen: false);
@@ -47,11 +50,20 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  return myStatsBox.statsBox(
-                    context,
-                    'Total utang keseluruhan:',
-                    'Rp ${dashboardProvider.utang}',
-                  );
+                  //format uang
+                  final int currency = dashboardProvider.utang;
+                  final String uang = myFormatter.formatUang.format(currency);
+                  if (dashboardProvider.utang == 0) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return myStatsBox.statsBox(
+                      context,
+                      'Total utang keseluruhan:',
+                      uang,
+                    );
+                  }
                 },
               ),
               const SizedBox(
@@ -59,10 +71,17 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  return myStatsBox.statsBox(
+                  if (dashboardProvider.pelanggan == 0) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return myStatsBox.statsBox(
                       context,
                       'Total pelanggan yang berutang:',
-                      '${dashboardProvider.pelanggan} Orang');
+                      '${dashboardProvider.pelanggan} Orang',
+                    );
+                  }
                 },
               ),
               const SizedBox(
@@ -70,7 +89,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               const Text(
                 'Menu',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 20,
@@ -78,7 +97,7 @@ class _DashboardPageState extends State<DashboardPage> {
               myButton.primaryButton(
                 context: context,
                 onPressedEvent: () {
-                  //ke halaman lain
+                  Navigator.pushNamed(context, CustomersListPage.routeName);
                 },
                 icon: Icons.list,
                 label: 'Daftar Pelanggan',
@@ -89,7 +108,7 @@ class _DashboardPageState extends State<DashboardPage> {
               myButton.secondaryButton(
                 context: context,
                 onPressedEvent: () {
-                  Navigator.pushNamed(context, CreateCustomer.routeName);
+                  Navigator.pushNamed(context, CreateCustomerPage.routeName);
                 },
                 icon: Icons.person_add,
                 label: 'Tambah Pelanggan',

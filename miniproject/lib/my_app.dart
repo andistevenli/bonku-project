@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:miniproject/View/Pages/Customer/create_customer.dart';
+import 'package:miniproject/View/Pages/Customer/create_customer_page.dart';
+import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Pages/Dashboard/dashboard_page.dart';
 import 'package:miniproject/View/View-Model/customer_view_model.dart';
 import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (context) => const DashboardPage(),
-          CreateCustomer.routeName: (context) => const CreateCustomer(),
+          CreateCustomerPage.routeName: (context) => const CreateCustomerPage(),
+          CustomersListPage.routeName: (context) => const CustomersListPage(),
         },
       ),
     );

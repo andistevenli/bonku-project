@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
 class Buttons {
-  MyColors myColors = MyColors();
+  final MyColors myColors = MyColors();
 
   ElevatedButton primaryButton(
       {required BuildContext context,

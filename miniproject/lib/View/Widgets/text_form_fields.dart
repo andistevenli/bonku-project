@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
 class TextFormFields {
-  MyColors myColors = MyColors();
+  final MyColors myColors = MyColors();
 
   TextFormField textFormField({
     required TextEditingController textEditingController,
