@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
+import 'package:miniproject/View/Pages/Debt/debt_details_page.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
@@ -133,14 +134,14 @@ class ListTiles {
                   btn.secondaryButton(
                     context: context,
                     onPressedEvent: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   DebtDetails.routeName,
-                      //   arguments: DebtDetailsArguments(
-                      //     nama: title,
-                      //     totalUtang: utang,
-                      //   ),
-                      // );
+                      Navigator.pushNamed(
+                        context,
+                        DebtDetailsPage.routeName,
+                        arguments: DebtDetailsArguments(
+                          idPelanggan: id,
+                          nama: title,
+                        ),
+                      );
                     },
                     icon: Icons.visibility,
                     label: 'Lihat Utang',
@@ -176,7 +177,6 @@ class ListTiles {
     String subtitle,
   ) {
     return ListTile(
-      visualDensity: const VisualDensity(vertical: 3),
       title: Text(
         title,
       ),
