@@ -3,6 +3,7 @@ import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/create_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Pages/Dashboard/dashboard_page.dart';
+import 'package:miniproject/View/Pages/Debt/add_debt_page.dart';
 import 'package:miniproject/View/Pages/Debt/debt_details_page.dart';
 import 'package:miniproject/View/View-Model/customer_view_model.dart';
 import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           CustomersListPage.routeName: (context) => const CustomersListPage(),
           ChangeCustomerPage.routeName: (context) => const ChangeCustomerPage(),
           DebtDetailsPage.routeName: (context) => const DebtDetailsPage(),
+          AddDebtPage.routeName: (context) => const AddDebtPage(),
         },
       ),
     );

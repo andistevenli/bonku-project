@@ -12,7 +12,7 @@ class DebtViewModel with ChangeNotifier {
         .from('transaksi')
         .select()
         .eq('id_pelanggan', id)
-        .order('id', ascending: false);
+        .order('created_at', ascending: false);
   }
 
   ///mengembalikan data yang ada pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
@@ -24,13 +24,12 @@ class DebtViewModel with ChangeNotifier {
   ///menghitung nilai dari total utang pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
   Future hitungTotalUtang(int id) async {
     int total = 0;
-    final List<dynamic> daftarSemuaUtang =
-        await supabase.from('transaksi').select('utang').eq('id', id);
-
-    for (int i = 0; i < daftarSemuaUtang.length; i++) {
-      total += int.parse(daftarSemuaUtang[i]
+    final List<dynamic> daftarSemuaUtangPerId =
+        await supabase.from('transaksi').select('utang').eq('id_pelanggan', id);
+    for (int i = 0; i < daftarSemuaUtangPerId.length; i++) {
+      total += int.parse(daftarSemuaUtangPerId[i]
           .toString()
-          .substring(8, daftarSemuaUtang[i].toString().length - 1));
+          .substring(8, daftarSemuaUtangPerId[i].toString().length - 1));
     }
     return total;
   }
@@ -39,5 +38,18 @@ class DebtViewModel with ChangeNotifier {
   totalUtang(int id) async {
     utang = await hitungTotalUtang(id);
     notifyListeners();
+  }
+
+  ///menambahkan utang pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
+  addDebt(
+    int idPelanggan,
+    String deskripsi,
+    int utang,
+  ) async {
+    await supabase.from('transaksi').insert({
+      'deskripsi': deskripsi,
+      'utang': utang,
+      'id_pelanggan': idPelanggan,
+    });
   }
 }

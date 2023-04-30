@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
+import 'package:miniproject/View/Pages/Debt/add_debt_page.dart';
 import 'package:miniproject/View/Pages/Debt/debt_details_page.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 
 class ListTiles {
   final MyColors myColors = MyColors();
-  final Buttons btn = Buttons();
+  final Buttons myButton = Buttons();
 
   ListTile customersListTile(
     BuildContext context,
@@ -41,8 +42,8 @@ class ListTiles {
           ),
           builder: (context) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.55,
-              margin: const EdgeInsets.fromLTRB(24, 20, 24, 30),
+              height: MediaQuery.of(context).size.height * 0.7,
+              margin: const EdgeInsets.fromLTRB(24, 24, 24, 24),
               child: Column(
                 children: [
                   const Icon(Icons.keyboard_double_arrow_down,
@@ -112,7 +113,7 @@ class ListTiles {
                   const SizedBox(
                     height: 20,
                   ),
-                  btn.secondaryButton(
+                  myButton.secondaryButton(
                     context: context,
                     onPressedEvent: () {
                       Navigator.pushNamed(
@@ -131,7 +132,7 @@ class ListTiles {
                   const SizedBox(
                     height: 20,
                   ),
-                  btn.secondaryButton(
+                  myButton.secondaryButton(
                     context: context,
                     onPressedEvent: () {
                       Navigator.pushNamed(
@@ -149,14 +150,17 @@ class ListTiles {
                   const SizedBox(
                     height: 20,
                   ),
-                  btn.primaryButton(
+                  myButton.primaryButton(
                     context: context,
                     onPressedEvent: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   AddDebt.routeName,
-                      //   arguments: AddDebtArguments(nama: title),
-                      // );
+                      Navigator.pushNamed(
+                        context,
+                        AddDebtPage.routeName,
+                        arguments: AddDebtArguments(
+                          idPelanggan: id,
+                          nama: title,
+                        ),
+                      );
                     },
                     icon: Icons.add,
                     label: 'Tambah Utang',

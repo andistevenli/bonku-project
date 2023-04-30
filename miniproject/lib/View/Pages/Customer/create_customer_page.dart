@@ -146,7 +146,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 icon: Icons.money,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Batas utang tidak boleh kosong';
+                    return 'Deskripsi tidak boleh kosong';
                   }
                   return null;
                 },
@@ -165,7 +165,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                       int.parse(_utangController.text),
                     );
                     if (context.mounted) {
-                      return Navigator.pop(context);
+                      Navigator.pop(context);
                     }
                   }
                 },

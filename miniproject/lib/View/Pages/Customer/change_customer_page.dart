@@ -166,7 +166,7 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
                       int.parse(_batasUtangController.text),
                     );
                     if (context.mounted) {
-                      return Navigator.popUntil(
+                      Navigator.popUntil(
                         context,
                         ModalRoute.withName(CustomersListPage.routeName),
                       );

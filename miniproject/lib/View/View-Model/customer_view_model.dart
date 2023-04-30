@@ -23,6 +23,7 @@ class CustomerViewModel with ChangeNotifier {
       'utang': utang,
       'id_pelanggan': id,
     });
+    notifyListeners();
   }
 
   ///memperbaharui data pada tabel 'pelanggan'
@@ -31,6 +32,7 @@ class CustomerViewModel with ChangeNotifier {
       'nama': nama,
       'batas_utang': batasUtang,
     }).eq('id', id);
+    notifyListeners();
   }
 
   ///mendapatkan semua id dari tabel 'pelanggan'.
@@ -55,7 +57,7 @@ class CustomerViewModel with ChangeNotifier {
     return await supabase
         .from('pelanggan')
         .select()
-        .order('id', ascending: false);
+        .order('created_at', ascending: false);
   }
 
   ///mengembalikan data yang ada pada tabel 'pelanggan'.
