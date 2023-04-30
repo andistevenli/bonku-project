@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/View-Model/customer_view_model.dart';
+import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
   final TextEditingController _deskripsiController = TextEditingController();
   final TextFormFields myTextformfield = TextFormFields();
   final Buttons myButton = Buttons();
+  final AlertDialogs myAlertDialog = AlertDialogs();
 
   @override
   void dispose() {
@@ -158,15 +160,27 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 context: context,
                 onPressedEvent: () async {
                   if (_formKey.currentState!.validate()) {
-                    provider.addCustomer(
-                      _namaPelangganController.text,
-                      int.parse(_batasUtangController.text),
-                      _deskripsiController.text,
-                      int.parse(_utangController.text),
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => myAlertDialog.alertDialog(
+                        context,
+                        () {
+                          provider.addCustomer(
+                            _namaPelangganController.text,
+                            int.parse(_batasUtangController.text),
+                            _deskripsiController.text,
+                            int.parse(_utangController.text),
+                          );
+                          if (context.mounted) {
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName('/'),
+                            );
+                          }
+                        },
+                      ),
                     );
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
                   }
                 },
                 icon: Icons.person_add,

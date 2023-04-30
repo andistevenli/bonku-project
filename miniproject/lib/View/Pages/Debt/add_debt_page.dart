@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/View-Model/debt_view_model.dart';
+import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
@@ -23,6 +24,7 @@ class _AddDebtState extends State<AddDebtPage> {
   final Buttons myButton = Buttons();
   final TextFormFields myTextFormField = TextFormFields();
   final MyColors myColors = MyColors();
+  final AlertDialogs myAlertDialog = AlertDialogs();
 
   @override
   void dispose() {
@@ -112,17 +114,26 @@ class _AddDebtState extends State<AddDebtPage> {
                 context: context,
                 onPressedEvent: () {
                   if (_formKey.currentState!.validate()) {
-                    provider.addDebt(
-                      args.idPelanggan,
-                      _deskripsiController.text,
-                      int.parse(_utangController.text),
-                    );
-                    if (context.mounted) {
-                      Navigator.popUntil(
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => myAlertDialog.alertDialog(
                         context,
-                        ModalRoute.withName(CustomersListPage.routeName),
-                      );
-                    }
+                        () {
+                          provider.addDebt(
+                            args.idPelanggan,
+                            _deskripsiController.text,
+                            int.parse(_utangController.text),
+                          );
+                          if (context.mounted) {
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(CustomersListPage.routeName),
+                            );
+                          }
+                        },
+                      ),
+                    );
                   }
                 },
                 icon: Icons.add,

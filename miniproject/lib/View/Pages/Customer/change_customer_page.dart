@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
+import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
@@ -23,9 +24,10 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
   final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _batasUtangController = TextEditingController();
 
-  TextFormFields myTextFormField = TextFormFields();
-  Buttons myButton = Buttons();
-  MyColors myColors = MyColors();
+  final TextFormFields myTextFormField = TextFormFields();
+  final Buttons myButton = Buttons();
+  final MyColors myColors = MyColors();
+  final AlertDialogs myAlertDialog = AlertDialogs();
 
   @override
   void dispose() {
@@ -160,17 +162,25 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
                 context: context,
                 onPressedEvent: () {
                   if (_formKey.currentState!.validate()) {
-                    provider.changeCustomer(
-                      args.idPelanggan,
-                      _customerNameController.text,
-                      int.parse(_batasUtangController.text),
-                    );
-                    if (context.mounted) {
-                      Navigator.popUntil(
+                    showDialog(
+                      context: context,
+                      builder: (context) => myAlertDialog.alertDialog(
                         context,
-                        ModalRoute.withName(CustomersListPage.routeName),
-                      );
-                    }
+                        () {
+                          provider.changeCustomer(
+                            args.idPelanggan,
+                            _customerNameController.text,
+                            int.parse(_batasUtangController.text),
+                          );
+                          if (context.mounted) {
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(CustomersListPage.routeName),
+                            );
+                          }
+                        },
+                      ),
+                    );
                   }
                 },
                 icon: Icons.edit,
