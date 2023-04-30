@@ -4,6 +4,7 @@ import 'package:miniproject/View/Widgets/list_tiles.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:provider/provider.dart';
 import '../../../Model/formatter.dart';
+import '../../Widgets/loading_animation.dart';
 
 class DebtDetailsPage extends StatefulWidget {
   const DebtDetailsPage({super.key});
@@ -17,6 +18,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
   final ListTiles myListTile = ListTiles();
   final MyColors myColors = MyColors();
   final Formatter myFormatter = Formatter();
+  final LoadingAnimation myLoadingAnimation = LoadingAnimation();
 
   provider(BuildContext context, int id) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
@@ -80,8 +82,8 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                 Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
                   debtProvider.totalUtang(args.idPelanggan);
                   if (debtProvider.utang == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: myLoadingAnimation.fourRotatingDots(),
                     );
                   }
                   //ubah format uang
@@ -111,8 +113,8 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
             Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
               debtProvider.getAllTransactions(args.idPelanggan);
               if (debtProvider.daftarUtang == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: myLoadingAnimation.fourRotatingDots(),
                 );
               }
               return ListView.separated(
@@ -135,6 +137,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                     utang,
                     tanggal,
                     debtProvider.daftarUtang![index]['id_pelanggan'],
+                    debtProvider.daftarUtang![index]['id'],
                   );
                 },
                 separatorBuilder: (context, index) {

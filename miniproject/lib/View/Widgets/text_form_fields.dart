@@ -23,6 +23,8 @@ class TextFormFields {
       autocorrect: false,
       enableSuggestions: false,
       decoration: InputDecoration(
+        errorMaxLines: 2,
+        helperMaxLines: 2,
         helperText: helperText,
         hintText: hintText,
         prefixIcon: Icon(icon),

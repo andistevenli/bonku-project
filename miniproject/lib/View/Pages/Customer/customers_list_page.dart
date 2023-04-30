@@ -3,6 +3,8 @@ import 'package:miniproject/Model/formatter.dart';
 import 'package:miniproject/View/View-Model/customer_view_model.dart';
 import 'package:miniproject/View/Widgets/list_tiles.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
+import '../../Widgets/loading_animation.dart';
 
 class CustomersListPage extends StatefulWidget {
   const CustomersListPage({super.key});
@@ -15,6 +17,7 @@ class CustomersListPage extends StatefulWidget {
 class _CustomersListPageState extends State<CustomersListPage> {
   final ListTiles myListTile = ListTiles();
   final Formatter myFormatter = Formatter();
+  final LoadingAnimation myLoadingAnimation = LoadingAnimation();
 
   provider(BuildContext context) {
     final provider = Provider.of<CustomerViewModel>(context, listen: false);
@@ -43,13 +46,13 @@ class _CustomersListPageState extends State<CustomersListPage> {
           builder: (context, customerProvider, _) {
             customerProvider.getAllCustomers();
             if (customerProvider.daftarPelanggan == null) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: myLoadingAnimation.stretchedDots(),
               );
             }
             if (customerProvider.daftarPelanggan!.isEmpty) {
-              return const Center(
-                child: Text('Belum ada data nih'),
+              return Center(
+                child: Lottie.asset('assets/lottie/131033-no-data-folder.json'),
               );
             } else {
               return ListView.separated(

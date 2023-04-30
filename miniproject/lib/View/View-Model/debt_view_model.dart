@@ -12,13 +12,7 @@ class DebtViewModel with ChangeNotifier {
         .from('transaksi')
         .select()
         .eq('id_pelanggan', id)
-        .order('created_at', ascending: false);
-  }
-
-  ///menghapus data pada tabel 'pelanggan' jika semua utang telah lunas
-  deleteCustomerIfNoDebtAnymore(int id) async {
-    await supabase.from('pelanggan').delete().eq('id', id);
-    notifyListeners();
+        .order('created_at', ascending: true);
   }
 
   ///mengembalikan data yang ada pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
@@ -59,9 +53,16 @@ class DebtViewModel with ChangeNotifier {
     });
   }
 
+  ///menghapus data pada tabel 'pelanggan' jika semua utang telah lunas
+  deleteCustomerIfNoDebtAnymore(int id) async {
+    await supabase.from('transaksi').delete().eq('id_pelanggan', id);
+    await supabase.from('pelanggan').delete().eq('id', id);
+    notifyListeners();
+  }
+
   ///menghapus data pada tabel 'transaksi'
   deleteDebt(int id) async {
-    await supabase.from('transaksi').delete().eq('id_pelanggan', id);
+    await supabase.from('transaksi').delete().eq('id', id);
     notifyListeners();
   }
 }

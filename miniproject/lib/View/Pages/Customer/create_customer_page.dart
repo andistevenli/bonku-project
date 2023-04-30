@@ -149,7 +149,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 helperText: 'Ketikkan deskripsi utang (nama barang/transaksi)',
                 hintText: 'Contoh: Rokok Gudang Gula',
                 labelText: 'Deskripsi',
-                icon: Icons.money,
+                icon: Icons.description,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Deskripsi tidak boleh kosong';

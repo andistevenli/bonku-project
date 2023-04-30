@@ -157,7 +157,7 @@ class _AddDebtState extends State<AddDebtPage> {
                 helperText: 'Ketikkan deskripsi utang (nama barang/transaksi)',
                 hintText: 'Contoh: Rokok Gudang Gula',
                 labelText: 'Deskripsi',
-                icon: Icons.money,
+                icon: Icons.description,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Deskripsi tidak boleh kosong';
@@ -184,17 +184,15 @@ class _AddDebtState extends State<AddDebtPage> {
                             int.parse(_utangController.text),
                           );
                           if (context.mounted) {
-                            Navigator.popUntil(
-                              context,
-                              ModalRoute.withName(CustomersListPage.routeName),
-                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                           }
                         },
                       ),
                     );
                   }
                 },
-                icon: Icons.add,
+                icon: Icons.add_circle,
                 label: 'Tambah Utang',
               ),
             ],

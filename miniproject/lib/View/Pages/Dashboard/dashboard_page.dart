@@ -4,6 +4,7 @@ import 'package:miniproject/View/Pages/Customer/create_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/View-Model/dashboard_view_model.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
+import 'package:miniproject/View/Widgets/loading_animation.dart';
 import 'package:miniproject/View/Widgets/statistic_box.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final Buttons myButton = Buttons();
   final StatisticBox myStatsBox = StatisticBox();
   final Formatter myFormatter = Formatter();
+  final LoadingAnimation myLoadingAnimation = LoadingAnimation();
 
   provider(BuildContext context) {
     final provider = Provider.of<DashboardViewModel>(context, listen: false);
@@ -32,7 +34,6 @@ class _DashboardPageState extends State<DashboardPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('KASBONKU'),
-        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
@@ -52,8 +53,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   dashboardProvider.totalUtang();
                   dashboardProvider.totalPelanggan();
                   if (dashboardProvider.utang == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: myLoadingAnimation.staggeredDotsWave(),
                     );
                   }
                   //format uang
@@ -82,8 +83,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   dashboardProvider.totalUtang();
                   dashboardProvider.totalPelanggan();
                   if (dashboardProvider.pelanggan == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: myLoadingAnimation.staggeredDotsWave(),
                     );
                   }
                   if (dashboardProvider.pelanggan == 0) {

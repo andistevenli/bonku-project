@@ -49,157 +49,161 @@ class ListTiles {
             ),
           ),
           builder: (context) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              margin: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-              child: Column(
-                children: [
-                  const Icon(Icons.keyboard_double_arrow_down,
-                      color: Colors.grey),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Atas nama',
-                    style: TextStyle(color: myColors.subInfoColor),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: myColors.primaryColor),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+            return Wrap(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(24),
+                  child: Column(
                     children: [
+                      const Icon(Icons.keyboard_double_arrow_down,
+                          color: Colors.grey),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Text(
-                        'Dibuat tanggal: ',
+                        'Atas nama',
+                        style: TextStyle(color: myColors.subInfoColor),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        title,
                         style: TextStyle(
-                          color: myColors.subInfoColor,
-                        ),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: myColors.primaryColor),
                       ),
-                      Text(
-                        formatTanggal,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Batas Utang: ',
-                        style: TextStyle(
-                          color: myColors.subInfoColor,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Dibuat tanggal: ',
+                            style: TextStyle(
+                              color: myColors.subInfoColor,
+                            ),
+                          ),
+                          Text(
+                            formatTanggal,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        formatBatasUtang,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: myColors.detailTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  myButton.secondaryButton(
-                    context: context,
-                    onPressedEvent: () {
-                      Navigator.pushNamed(
-                        context,
-                        ChangeCustomerPage.routeName,
-                        arguments: ChangeCustomerArguments(
-                          idPelanggan: id,
-                          namaPelanggan: title,
-                          nominalBatasUtang: formatBatasUtang,
-                        ),
-                      );
-                    },
-                    icon: Icons.edit,
-                    label: 'Ubah Data Pelanggan',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  myButton.secondaryButton(
-                    context: context,
-                    onPressedEvent: () {
-                      Navigator.pushNamed(
-                        context,
-                        DebtDetailsPage.routeName,
-                        arguments: DebtDetailsArguments(
-                          idPelanggan: id,
-                          nama: title,
-                        ),
-                      );
-                    },
-                    icon: Icons.visibility,
-                    label: 'Lihat Utang',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  myButton.primaryButton(
-                    context: context,
-                    onPressedEvent: () {
-                      Navigator.pushNamed(
-                        context,
-                        AddDebtPage.routeName,
-                        arguments: AddDebtArguments(
-                          idPelanggan: id,
-                          nama: title,
-                          batasUtang: batasUtang,
-                        ),
-                      );
-                    },
-                    icon: Icons.add,
-                    label: 'Tambah Utang',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  myButton.tertiaryButton(
-                    context: context,
-                    onPressedEvent: () {
-                      showDialog(
-                        barrierDismissible: false,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Batas Utang: ',
+                            style: TextStyle(
+                              color: myColors.subInfoColor,
+                            ),
+                          ),
+                          Text(
+                            formatBatasUtang,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: myColors.detailTextColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      myButton.secondaryButton(
                         context: context,
-                        builder: (context) => myAlertDialog.alertDialog(
-                          context,
-                          () {
-                            provider.deleteCustomer(id);
-                            Navigator.popUntil(
+                        onPressedEvent: () {
+                          Navigator.pushNamed(
+                            context,
+                            ChangeCustomerPage.routeName,
+                            arguments: ChangeCustomerArguments(
+                              idPelanggan: id,
+                              namaPelanggan: title,
+                              nominalBatasUtang: formatBatasUtang,
+                            ),
+                          );
+                        },
+                        icon: Icons.edit,
+                        label: 'Ubah Data Pelanggan',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      myButton.secondaryButton(
+                        context: context,
+                        onPressedEvent: () {
+                          Navigator.pushNamed(
+                            context,
+                            DebtDetailsPage.routeName,
+                            arguments: DebtDetailsArguments(
+                              idPelanggan: id,
+                              nama: title,
+                            ),
+                          );
+                        },
+                        icon: Icons.visibility,
+                        label: 'Lihat Detail Utang',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      myButton.primaryButton(
+                        context: context,
+                        onPressedEvent: () {
+                          Navigator.pushNamed(
+                            context,
+                            AddDebtPage.routeName,
+                            arguments: AddDebtArguments(
+                              idPelanggan: id,
+                              nama: title,
+                              batasUtang: batasUtang,
+                            ),
+                          );
+                        },
+                        icon: Icons.add_circle,
+                        label: 'Tambah Utang',
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      myButton.tertiaryButton(
+                        context: context,
+                        onPressedEvent: () {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => myAlertDialog.alertDialog(
                               context,
-                              ModalRoute.withName(CustomersListPage.routeName),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    icon: Icons.delete,
-                    label: 'Hapus Data Pelanggan',
+                              () {
+                                provider.deleteCustomer(id);
+                                Navigator.popUntil(
+                                  context,
+                                  ModalRoute.withName(
+                                      CustomersListPage.routeName),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        icon: Icons.check_circle,
+                        label: 'Lunasin Semua Utangnya',
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         );
@@ -212,6 +216,7 @@ class ListTiles {
     String title,
     String utang,
     String subtitle,
+    int idPelanggan,
     int id,
   ) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
@@ -254,8 +259,8 @@ class ListTiles {
                   if (provider.daftarUtang!.length == 1) {
                     Navigator.popUntil(context,
                         ModalRoute.withName(CustomersListPage.routeName));
-                    provider.deleteDebt(id);
-                    provider.deleteCustomerIfNoDebtAnymore(id);
+                    provider.deleteDebt(idPelanggan);
+                    provider.deleteCustomerIfNoDebtAnymore(idPelanggan);
                   } else {
                     provider.deleteDebt(id);
                     Navigator.pop(context);
