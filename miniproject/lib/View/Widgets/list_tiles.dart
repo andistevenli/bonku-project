@@ -3,6 +3,7 @@ import 'package:miniproject/View/Pages/Customer/change_customer_page.dart';
 import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/Pages/Debt/add_debt_page.dart';
 import 'package:miniproject/View/Pages/Debt/debt_details_page.dart';
+import 'package:miniproject/View/View-Model/debt_view_model.dart';
 import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
@@ -178,6 +179,7 @@ class ListTiles {
                     context: context,
                     onPressedEvent: () {
                       showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) => myAlertDialog.alertDialog(
                           context,
@@ -208,7 +210,9 @@ class ListTiles {
     String title,
     String utang,
     String subtitle,
+    int id,
   ) {
+    final provider = Provider.of<DebtViewModel>(context, listen: false);
     return ListTile(
       title: Text(
         title,
@@ -245,6 +249,7 @@ class ListTiles {
               ),
               TextButton(
                 onPressed: () {
+                  provider.deleteDebt(id);
                   Navigator.pop(context);
                 },
                 child: const Text('Iya'),

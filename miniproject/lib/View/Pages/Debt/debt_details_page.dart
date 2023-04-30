@@ -136,6 +136,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                       debtProvider.daftarUtang[index]['deskripsi'],
                       utang,
                       tanggal,
+                      debtProvider.daftarUtang[index]['id'],
                     );
                   },
                   separatorBuilder: (context, index) {

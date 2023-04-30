@@ -52,4 +52,10 @@ class DebtViewModel with ChangeNotifier {
       'id_pelanggan': idPelanggan,
     });
   }
+
+  ///menghapus data pada tabel 'transaksi'
+  deleteDebt(int id) async {
+    await supabase.from('transaksi').delete().eq('id', id);
+    notifyListeners();
+  }
 }
