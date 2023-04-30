@@ -21,6 +21,7 @@ class ListTiles {
     String formatBatasUtang,
     String formatTanggal,
     int id,
+    int batasUtang,
   ) {
     final provider = Provider.of<CustomerViewModel>(context, listen: false);
     return ListTile(
@@ -166,6 +167,7 @@ class ListTiles {
                         arguments: AddDebtArguments(
                           idPelanggan: id,
                           nama: title,
+                          batasUtang: batasUtang,
                         ),
                       );
                     },
@@ -249,8 +251,14 @@ class ListTiles {
               ),
               TextButton(
                 onPressed: () {
-                  provider.deleteDebt(id);
-                  Navigator.pop(context);
+                  if (provider.daftarUtang!.length == 1) {
+                    Navigator.popUntil(context,
+                        ModalRoute.withName(CustomersListPage.routeName));
+                    provider.deleteDebt(id);
+                    provider.deleteCustomerIfNoDebtAnymore(id);
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text('Iya'),
               ),

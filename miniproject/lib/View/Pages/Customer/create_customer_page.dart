@@ -105,7 +105,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 },
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               const Text(
                 'Utang Awal:',
@@ -127,6 +127,10 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                   if (value == null || value.isEmpty) {
                     return 'Utang tidak boleh kosong';
                   } else {
+                    if (int.parse(_utangController.text) >
+                        int.parse(_batasUtangController.text)) {
+                      return 'tidak boleh melebihi batas utang';
+                    }
                     if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                       return 'hanya boleh diisi angka';
                     }
@@ -154,7 +158,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                 },
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               myButton.primaryButton(
                 context: context,

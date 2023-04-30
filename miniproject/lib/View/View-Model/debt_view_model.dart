@@ -3,8 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DebtViewModel with ChangeNotifier {
   final supabase = Supabase.instance.client;
-  List<dynamic> daftarUtang = [];
-  int utang = 0;
+  List<dynamic>? daftarUtang;
+  int? utang;
 
   ///mendapatkan semua data yang ada pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
   Future readAllTransactions(int id) async {
@@ -13,6 +13,12 @@ class DebtViewModel with ChangeNotifier {
         .select()
         .eq('id_pelanggan', id)
         .order('created_at', ascending: false);
+  }
+
+  ///menghapus data pada tabel 'pelanggan' jika semua utang telah lunas
+  deleteCustomerIfNoDebtAnymore(int id) async {
+    await supabase.from('pelanggan').delete().eq('id', id);
+    notifyListeners();
   }
 
   ///mengembalikan data yang ada pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
@@ -55,7 +61,7 @@ class DebtViewModel with ChangeNotifier {
 
   ///menghapus data pada tabel 'transaksi'
   deleteDebt(int id) async {
-    await supabase.from('transaksi').delete().eq('id', id);
+    await supabase.from('transaksi').delete().eq('id_pelanggan', id);
     notifyListeners();
   }
 }

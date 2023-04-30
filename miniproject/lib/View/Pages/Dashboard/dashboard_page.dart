@@ -33,14 +33,6 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: const Text('KASBONKU'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              provider(context);
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -49,12 +41,21 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  //format uang
-                  final int currency = dashboardProvider.utang;
-                  final String uang = myFormatter.formatUang.format(currency);
-                  if (dashboardProvider.utang == 0) {
+                  dashboardProvider.totalUtang();
+                  dashboardProvider.totalPelanggan();
+                  if (dashboardProvider.utang == null) {
                     return const Center(
                       child: CircularProgressIndicator(),
+                    );
+                  }
+                  //format uang
+                  final int currency = dashboardProvider.utang!;
+                  final String uang = myFormatter.formatUang.format(currency);
+                  if (dashboardProvider.utang == 0) {
+                    return myStatsBox.statsBox(
+                      context,
+                      'Total utang keseluruhan',
+                      'tidak ada',
                     );
                   } else {
                     return myStatsBox.statsBox(
@@ -70,9 +71,18 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  if (dashboardProvider.pelanggan == 0) {
+                  dashboardProvider.totalUtang();
+                  dashboardProvider.totalPelanggan();
+                  if (dashboardProvider.pelanggan == null) {
                     return const Center(
                       child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (dashboardProvider.pelanggan == 0) {
+                    return myStatsBox.statsBox(
+                      context,
+                      'Total pelanggan yang berutang',
+                      'tidak ada',
                     );
                   } else {
                     return myStatsBox.statsBox(

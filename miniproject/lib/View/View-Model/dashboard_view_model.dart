@@ -3,8 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DashboardViewModel with ChangeNotifier {
   final supabase = Supabase.instance.client;
-  int utang = 0;
-  int pelanggan = 0;
+  int? utang;
+  int? pelanggan;
 
   ///menghitung nilai dari total utang semua pelanggan dari tabel 'transaksi'.
   Future hitungTotalUtang() async {

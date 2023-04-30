@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/Model/formatter.dart';
 import 'package:miniproject/View/View-Model/debt_view_model.dart';
 import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
@@ -25,6 +26,7 @@ class _AddDebtState extends State<AddDebtPage> {
   final TextFormFields myTextFormField = TextFormFields();
   final MyColors myColors = MyColors();
   final AlertDialogs myAlertDialog = AlertDialogs();
+  final Formatter myFormatter = Formatter();
 
   @override
   void dispose() {
@@ -37,7 +39,11 @@ class _AddDebtState extends State<AddDebtPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
     final args = ModalRoute.of(context)!.settings.arguments as AddDebtArguments;
-
+    provider.totalUtang(args.idPelanggan);
+    final int currencyUtang = provider.utang!;
+    final String utang = myFormatter.formatUang.format(currencyUtang);
+    final int currencyBatasUtang = args.batasUtang;
+    final String batasUtang = myFormatter.formatUang.format(currencyBatasUtang);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah Utang'),
@@ -68,6 +74,54 @@ class _AddDebtState extends State<AddDebtPage> {
               const SizedBox(
                 height: 20,
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total utang:',
+                    style: TextStyle(color: myColors.subInfoColor),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    utang,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: myColors.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Batas utang',
+                    style: TextStyle(color: myColors.subInfoColor),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    batasUtang,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: myColors.detailTextColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               myTextFormField.textFormField(
                 enabled: true,
                 textEditingController: _utangController,
@@ -81,6 +135,10 @@ class _AddDebtState extends State<AddDebtPage> {
                   if (value == null || value.isEmpty) {
                     return 'Utang tidak boleh kosong';
                   } else {
+                    if (int.parse(_utangController.text) + provider.utang! >
+                        args.batasUtang) {
+                      return 'tidak boleh melebihi batas utang';
+                    }
                     if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                       return 'hanya boleh diisi angka';
                     }
@@ -150,6 +208,11 @@ class _AddDebtState extends State<AddDebtPage> {
 class AddDebtArguments {
   final int idPelanggan;
   final String nama;
+  final int batasUtang;
 
-  AddDebtArguments({required this.idPelanggan, required this.nama});
+  AddDebtArguments({
+    required this.idPelanggan,
+    required this.nama,
+    required this.batasUtang,
+  });
 }

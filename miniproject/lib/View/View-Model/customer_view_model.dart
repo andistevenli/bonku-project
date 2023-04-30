@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CustomerViewModel with ChangeNotifier {
   final supabase = Supabase.instance.client;
-  List<dynamic> daftarPelanggan = [];
+  List<dynamic>? daftarPelanggan;
 
   ///menambahkan data ke tabel 'pelanggan' dan tabel 'transaksi'.
   addCustomer(
@@ -52,11 +52,17 @@ class CustomerViewModel with ChangeNotifier {
   ///mendapatkan id terakhir dari tabel 'pelanggan'.
   getLastId() async {
     List<dynamic> daftarId = await captureAllId();
-    int lastId = int.parse(daftarId.last
-        .toString()
-        .substring(5, daftarId.last.toString().length - 1));
-    lastId++;
-    return lastId;
+    int lastId = 0;
+    if (daftarId.isEmpty) {
+      lastId++;
+      return lastId;
+    } else {
+      lastId = int.parse(daftarId.last
+          .toString()
+          .substring(5, daftarId.last.toString().length - 1));
+      lastId++;
+      return lastId;
+    }
   }
 
   ///mendapatkan semua data yang ada pada tabel 'pelanggan'.

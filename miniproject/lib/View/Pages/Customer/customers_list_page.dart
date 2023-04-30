@@ -28,22 +28,20 @@ class _CustomersListPageState extends State<CustomersListPage> {
       appBar: AppBar(
         title: const Text('Daftar Pelanggan'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              provider(context);
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
         child: Consumer<CustomerViewModel>(
           builder: (context, customerProvider, _) {
-            if (customerProvider.daftarPelanggan.isEmpty) {
+            customerProvider.getAllCustomers();
+            if (customerProvider.daftarPelanggan == null) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            }
+            if (customerProvider.daftarPelanggan!.isEmpty) {
+              return const Center(
+                child: Text('Belum ada data nih'),
               );
             } else {
               return ListView.separated(
@@ -52,19 +50,20 @@ class _CustomersListPageState extends State<CustomersListPage> {
                 itemBuilder: (context, index) {
                   //format tanggal
                   final DateTime dateTime = DateTime.parse(
-                      customerProvider.daftarPelanggan[index]['created_at']);
+                      customerProvider.daftarPelanggan![index]['created_at']);
                   final String tanggal =
                       myFormatter.formatTanggal.format(dateTime);
                   //format mata uang
                   final int currency =
-                      customerProvider.daftarPelanggan[index]['batas_utang'];
+                      customerProvider.daftarPelanggan![index]['batas_utang'];
                   final String uang = myFormatter.formatUang.format(currency);
                   return myListTile.customersListTile(
                     context,
-                    customerProvider.daftarPelanggan[index]['nama'],
+                    customerProvider.daftarPelanggan![index]['nama'],
                     uang,
                     tanggal,
-                    customerProvider.daftarPelanggan[index]['id'],
+                    customerProvider.daftarPelanggan![index]['id'],
+                    customerProvider.daftarPelanggan![index]['batas_utang'],
                   );
                 },
                 separatorBuilder: ((context, index) {
@@ -72,7 +71,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
                     height: 10,
                   );
                 }),
-                itemCount: customerProvider.daftarPelanggan.length,
+                itemCount: customerProvider.daftarPelanggan!.length,
               );
             }
           },

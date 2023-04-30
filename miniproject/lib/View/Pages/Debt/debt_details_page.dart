@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/View/Pages/Customer/customers_list_page.dart';
 import 'package:miniproject/View/View-Model/debt_view_model.dart';
 import 'package:miniproject/View/Widgets/list_tiles.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
@@ -34,14 +35,6 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
       appBar: AppBar(
         title: const Text('Detail Utang'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              provider(context, args.idPelanggan);
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
@@ -79,24 +72,23 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                   width: 20,
                 ),
                 Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
-                  if (debtProvider.utang == 0) {
+                  debtProvider.totalUtang(args.idPelanggan);
+                  if (debtProvider.utang == null) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else {
-                    //ubah format uang
-                    final int currency = debtProvider.utang;
-                    final String utang =
-                        myFormatter.formatUang.format(currency);
-                    return Text(
-                      utang,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: myColors.primaryColor,
-                      ),
-                    );
                   }
+                  //ubah format uang
+                  final int currency = debtProvider.utang!;
+                  final String utang = myFormatter.formatUang.format(currency);
+                  return Text(
+                    utang,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: myColors.primaryColor,
+                    ),
+                  );
                 }),
               ],
             ),
@@ -111,41 +103,40 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
               height: 20,
             ),
             Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
-              if (debtProvider.daftarUtang.isEmpty) {
+              debtProvider.getAllTransactions(args.idPelanggan);
+              if (debtProvider.daftarUtang == null) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else {
-                return ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: debtProvider.daftarUtang.length,
-                  itemBuilder: (context, index) {
-                    //ubah format uang
-                    final int currency =
-                        debtProvider.daftarUtang[index]['utang'];
-                    final String utang =
-                        myFormatter.formatUang.format(currency);
-                    //ubah format tanggal
-                    final DateTime dateTime = DateTime.parse(
-                        debtProvider.daftarUtang[index]['created_at']);
-                    final String tanggal =
-                        myFormatter.formatTanggal.format(dateTime);
-                    return myListTile.debtDetailsListTile(
-                      context,
-                      debtProvider.daftarUtang[index]['deskripsi'],
-                      utang,
-                      tanggal,
-                      debtProvider.daftarUtang[index]['id'],
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 10,
-                    );
-                  },
-                );
               }
+              return ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: debtProvider.daftarUtang!.length,
+                itemBuilder: (context, index) {
+                  //ubah format uang
+                  final int currency =
+                      debtProvider.daftarUtang![index]['utang'];
+                  final String utang = myFormatter.formatUang.format(currency);
+                  //ubah format tanggal
+                  final DateTime dateTime = DateTime.parse(
+                      debtProvider.daftarUtang![index]['created_at']);
+                  final String tanggal =
+                      myFormatter.formatTanggal.format(dateTime);
+                  return myListTile.debtDetailsListTile(
+                    context,
+                    debtProvider.daftarUtang![index]['deskripsi'],
+                    utang,
+                    tanggal,
+                    debtProvider.daftarUtang![index]['id_pelanggan'],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+              );
             }),
           ],
         ),

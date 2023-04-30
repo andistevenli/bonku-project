@@ -164,6 +164,7 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
                   if (_formKey.currentState!.validate()) {
                     showDialog(
                       context: context,
+                      barrierDismissible: false,
                       builder: (context) => myAlertDialog.alertDialog(
                         context,
                         () {
