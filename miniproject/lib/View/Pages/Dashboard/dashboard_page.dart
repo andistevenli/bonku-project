@@ -33,7 +33,10 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('KASBONKU'),
+        title: Image.asset(
+          'assets/logos/logo_Bonku_landscape.png',
+          height: 40,
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -63,7 +66,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   if (dashboardProvider.utang == 0) {
                     return myStatsBox.statsBox(
                       context,
-                      'Total utang keseluruhan',
+                      'Total utang keseluruhan:',
                       'tidak ada',
                     );
                   } else {
@@ -90,7 +93,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   if (dashboardProvider.pelanggan == 0) {
                     return myStatsBox.statsBox(
                       context,
-                      'Total pelanggan yang berutang',
+                      'Total pelanggan yang berutang:',
                       'tidak ada',
                     );
                   } else {

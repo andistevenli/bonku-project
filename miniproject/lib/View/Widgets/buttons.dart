@@ -88,7 +88,7 @@ class Buttons {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: myColors.tertiaryButtonColor,
         elevation: 0,
         fixedSize: Size(MediaQuery.of(context).size.width, 70),
         shape: RoundedRectangleBorder(

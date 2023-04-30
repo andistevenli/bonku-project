@@ -52,7 +52,8 @@ class _CustomersListPageState extends State<CustomersListPage> {
             }
             if (customerProvider.daftarPelanggan!.isEmpty) {
               return Center(
-                child: Lottie.asset('assets/lottie/131033-no-data-folder.json'),
+                child:
+                    Lottie.asset('assets/lotties/131033-no-data-folder.json'),
               );
             } else {
               return ListView.separated(

@@ -7,8 +7,6 @@ import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
-import '../Customer/customers_list_page.dart';
-
 class AddDebtPage extends StatefulWidget {
   const AddDebtPage({super.key});
 
