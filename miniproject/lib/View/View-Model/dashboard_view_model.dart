@@ -1,42 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:miniproject/Model/helper/supabase_helper_dashboard.dart';
 
 class DashboardViewModel with ChangeNotifier {
-  final supabase = Supabase.instance.client;
-  int? utang;
-  int? pelanggan;
+  int? totalUtang;
+  int? totalPelanggan;
 
-  ///menghitung nilai dari total utang semua pelanggan dari tabel 'transaksi'.
-  Future hitungTotalUtang() async {
-    int total = 0;
-    final List<dynamic> daftarSemuaUtang =
-        await supabase.from('transaksi').select('utang');
+  final SupabaseHelperDashboard _supabaseHelperDashboard =
+      SupabaseHelperDashboard();
 
-    for (int i = 0; i < daftarSemuaUtang.length; i++) {
-      total += int.parse(daftarSemuaUtang[i]
-          .toString()
-          .substring(8, daftarSemuaUtang[i].toString().length - 1));
-    }
-    return total;
-  }
-
-  ///menghitung nilai dari total pelanggan yang berutang dari tabel 'pelanggan'.
-  Future hitungTotalPelanggan() async {
-    final daftarPelanggan = await supabase
-        .from('pelanggan')
-        .select('*', const FetchOptions(count: CountOption.exact));
-    return daftarPelanggan.count;
-  }
-
-  ///mengembalikan nilai dari total utang semua pelanggan
-  totalUtang() async {
-    utang = await hitungTotalUtang();
+  Future<void> debtSum() async {
+    totalUtang = await _supabaseHelperDashboard.readDebtSum();
     notifyListeners();
   }
 
-  ///mengembalikan nilai dari total pelanggan yang berutang
-  totalPelanggan() async {
-    pelanggan = await hitungTotalPelanggan();
+  Future<void> customerSum() async {
+    totalPelanggan = await _supabaseHelperDashboard.readCustomerSum();
     notifyListeners();
   }
 }

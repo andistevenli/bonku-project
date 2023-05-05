@@ -23,13 +23,18 @@ class _DashboardPageState extends State<DashboardPage> {
 
   provider(BuildContext context) {
     final provider = Provider.of<DashboardViewModel>(context, listen: false);
-    provider.totalUtang();
-    provider.totalPelanggan();
+    provider.debtSum();
+    provider.customerSum();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    provider(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    provider(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -53,26 +58,29 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  dashboardProvider.totalUtang();
-                  dashboardProvider.totalPelanggan();
-                  if (dashboardProvider.utang == null) {
-                    return Center(
-                      child: myLoadingAnimation.staggeredDotsWave(),
+                  dashboardProvider.debtSum();
+                  if (dashboardProvider.totalUtang == null) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                      child: Center(
+                        child: myLoadingAnimation.staggeredDotsWave(),
+                      ),
                     );
                   }
                   //format uang
-                  final int currency = dashboardProvider.utang!;
+                  final int currency = dashboardProvider.totalUtang!;
                   final String uang = myFormatter.formatUang.format(currency);
-                  if (dashboardProvider.utang == 0) {
+                  if (dashboardProvider.totalUtang == 0) {
                     return myStatsBox.statsBox(
                       context,
-                      'Total utang keseluruhan:',
+                      'Total utang:',
                       'tidak ada',
                     );
                   } else {
                     return myStatsBox.statsBox(
                       context,
-                      'Total utang keseluruhan:',
+                      'Total utang:',
                       uang,
                     );
                   }
@@ -83,24 +91,27 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Consumer<DashboardViewModel>(
                 builder: (context, dashboardProvider, _) {
-                  dashboardProvider.totalUtang();
-                  dashboardProvider.totalPelanggan();
-                  if (dashboardProvider.pelanggan == null) {
-                    return Center(
-                      child: myLoadingAnimation.staggeredDotsWave(),
+                  dashboardProvider.customerSum();
+                  if (dashboardProvider.totalPelanggan == null) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                      child: Center(
+                        child: myLoadingAnimation.staggeredDotsWave(),
+                      ),
                     );
                   }
-                  if (dashboardProvider.pelanggan == 0) {
+                  if (dashboardProvider.totalPelanggan == 0) {
                     return myStatsBox.statsBox(
                       context,
-                      'Total pelanggan yang berutang:',
+                      'Total pelanggan:',
                       'tidak ada',
                     );
                   } else {
                     return myStatsBox.statsBox(
                       context,
-                      'Total pelanggan yang berutang:',
-                      '${dashboardProvider.pelanggan} Orang',
+                      'Total pelanggan:',
+                      '${dashboardProvider.totalPelanggan} Orang',
                     );
                   }
                 },

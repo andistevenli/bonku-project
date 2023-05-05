@@ -7,6 +7,9 @@ import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
+import '../../Widgets/snack_bars.dart';
+import '../Customer/customers_list_page.dart';
+
 class AddDebtPage extends StatefulWidget {
   const AddDebtPage({super.key});
 
@@ -25,6 +28,7 @@ class _AddDebtState extends State<AddDebtPage> {
   final MyColors myColors = MyColors();
   final AlertDialogs myAlertDialog = AlertDialogs();
   final Formatter myFormatter = Formatter();
+  final SnackBars mySnackBar = SnackBars();
 
   @override
   void dispose() {
@@ -37,8 +41,8 @@ class _AddDebtState extends State<AddDebtPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
     final args = ModalRoute.of(context)!.settings.arguments as AddDebtArguments;
-    provider.totalUtang(args.idPelanggan);
-    final int currencyUtang = provider.utang!;
+    provider.debtSum(args.idPelanggan);
+    final int currencyUtang = provider.totalUtang;
     final String utang = myFormatter.formatUang.format(currencyUtang);
     final int currencyBatasUtang = args.batasUtang;
     final String batasUtang = myFormatter.formatUang.format(currencyBatasUtang);
@@ -133,7 +137,7 @@ class _AddDebtState extends State<AddDebtPage> {
                   if (value == null || value.isEmpty) {
                     return 'Utang tidak boleh kosong';
                   } else {
-                    if (int.parse(_utangController.text) + provider.utang! >
+                    if (int.parse(_utangController.text) + provider.totalUtang >
                         args.batasUtang) {
                       return 'tidak boleh melebihi batas utang';
                     }
@@ -176,16 +180,25 @@ class _AddDebtState extends State<AddDebtPage> {
                       builder: (context) => myAlertDialog.alertDialog(
                         context,
                         () {
-                          provider.addDebt(
+                          provider.createDebt(
                             args.idPelanggan,
                             _deskripsiController.text,
                             int.parse(_utangController.text),
                           );
                           if (context.mounted) {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(CustomersListPage.routeName),
+                            );
+                            ScaffoldMessengerState().hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              mySnackBar.successSnackBar(
+                                  content: 'Utang berhasil ditambahkan',
+                                  label: 'Mantap'),
+                            );
                           }
                         },
+                        'Utang tidak jadi ditambahkan',
                       ),
                     );
                   }

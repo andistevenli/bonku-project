@@ -22,8 +22,8 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
 
   provider(BuildContext context, int id) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
-    provider.getAllTransactions(id);
-    provider.totalUtang(id);
+    provider.readDebt(id);
+    provider.debtSum(id);
   }
 
   @override
@@ -80,14 +80,14 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                   width: 20,
                 ),
                 Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
-                  debtProvider.totalUtang(args.idPelanggan);
-                  if (debtProvider.utang == null) {
+                  debtProvider.debtSum(args.idPelanggan);
+                  if (debtProvider.utang.isEmpty) {
                     return Center(
                       child: myLoadingAnimation.fourRotatingDots(),
                     );
                   }
                   //ubah format uang
-                  final int currency = debtProvider.utang!;
+                  final int currency = debtProvider.totalUtang;
                   final String utang = myFormatter.formatUang.format(currency);
                   return Text(
                     utang,
@@ -111,8 +111,9 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
               height: 20,
             ),
             Consumer<DebtViewModel>(builder: (context, debtProvider, _) {
-              debtProvider.getAllTransactions(args.idPelanggan);
-              if (debtProvider.daftarUtang == null) {
+              debtProvider.readDebt(args.idPelanggan);
+              if (debtProvider.daftarUtang == null ||
+                  debtProvider.daftarUtang!.isEmpty) {
                 return Center(
                   child: myLoadingAnimation.fourRotatingDots(),
                 );
@@ -123,21 +124,20 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                 itemCount: debtProvider.daftarUtang!.length,
                 itemBuilder: (context, index) {
                   //ubah format uang
-                  final int currency =
-                      debtProvider.daftarUtang![index]['utang'];
+                  final int currency = debtProvider.daftarUtang![index].utang!;
                   final String utang = myFormatter.formatUang.format(currency);
                   //ubah format tanggal
                   final DateTime dateTime = DateTime.parse(
-                      debtProvider.daftarUtang![index]['created_at']);
+                      debtProvider.daftarUtang![index].createdAt!);
                   final String tanggal =
                       myFormatter.formatTanggal.format(dateTime);
                   return myListTile.debtDetailsListTile(
                     context,
-                    debtProvider.daftarUtang![index]['deskripsi'],
+                    debtProvider.daftarUtang![index].deskripsi!,
                     utang,
                     tanggal,
-                    debtProvider.daftarUtang![index]['id_pelanggan'],
-                    debtProvider.daftarUtang![index]['id'],
+                    debtProvider.daftarUtang![index].idPelanggan!,
+                    debtProvider.daftarUtang![index].id!,
                   );
                 },
                 separatorBuilder: (context, index) {

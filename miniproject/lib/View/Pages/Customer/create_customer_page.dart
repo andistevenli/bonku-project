@@ -5,6 +5,8 @@ import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
+import '../../Widgets/snack_bars.dart';
+
 class CreateCustomerPage extends StatefulWidget {
   const CreateCustomerPage({super.key});
   static const routeName = '/createCustomerPage';
@@ -23,6 +25,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
   final TextFormFields myTextformfield = TextFormFields();
   final Buttons myButton = Buttons();
   final AlertDialogs myAlertDialog = AlertDialogs();
+  final SnackBars mySnackBar = SnackBars();
 
   @override
   void dispose() {
@@ -170,7 +173,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                       builder: (context) => myAlertDialog.alertDialog(
                         context,
                         () {
-                          provider.addCustomer(
+                          provider.createCustomer(
                             _namaPelangganController.text,
                             int.parse(_batasUtangController.text),
                             _deskripsiController.text,
@@ -181,8 +184,16 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                               context,
                               ModalRoute.withName('/'),
                             );
+                            ScaffoldMessengerState().hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              mySnackBar.successSnackBar(
+                                  content:
+                                      'Data pelanggan berhasil ditambahkan',
+                                  label: 'Mantap'),
+                            );
                           }
                         },
+                        'Data pelanggan tidak jadi ditambahkan',
                       ),
                     );
                   }

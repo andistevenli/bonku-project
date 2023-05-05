@@ -7,6 +7,7 @@ import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
 
 import '../../View-Model/customer_view_model.dart';
+import '../../Widgets/snack_bars.dart';
 
 class ChangeCustomerPage extends StatefulWidget {
   const ChangeCustomerPage({
@@ -28,6 +29,7 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
   final Buttons myButton = Buttons();
   final MyColors myColors = MyColors();
   final AlertDialogs myAlertDialog = AlertDialogs();
+  final SnackBars mySnackBar = SnackBars();
 
   @override
   void dispose() {
@@ -168,7 +170,7 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
                       builder: (context) => myAlertDialog.alertDialog(
                         context,
                         () {
-                          provider.changeCustomer(
+                          provider.updateCustomer(
                             args.idPelanggan,
                             _customerNameController.text,
                             int.parse(_batasUtangController.text),
@@ -178,8 +180,15 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
                               context,
                               ModalRoute.withName(CustomersListPage.routeName),
                             );
+                            ScaffoldMessengerState().hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              mySnackBar.successSnackBar(
+                                  content: 'Data pelanggan berhasil diubah',
+                                  label: 'Mantap'),
+                            );
                           }
                         },
+                        'Data pelanggan tidak jadi diubah',
                       ),
                     );
                   }

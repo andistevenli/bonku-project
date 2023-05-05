@@ -7,6 +7,7 @@ import 'package:miniproject/View/View-Model/debt_view_model.dart';
 import 'package:miniproject/View/Widgets/alert_dialogs.dart';
 import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
+import 'package:miniproject/View/Widgets/snack_bars.dart';
 import 'package:provider/provider.dart';
 import '../View-Model/customer_view_model.dart';
 
@@ -14,6 +15,7 @@ class ListTiles {
   final MyColors myColors = MyColors();
   final Buttons myButton = Buttons();
   final AlertDialogs myAlertDialog = AlertDialogs();
+  final SnackBars mySnackBar = SnackBars();
 
   ListTile customersListTile(
     BuildContext context,
@@ -184,16 +186,51 @@ class ListTiles {
                           showDialog(
                             barrierDismissible: false,
                             context: context,
-                            builder: (context) => myAlertDialog.alertDialog(
-                              context,
-                              () {
-                                provider.deleteCustomer(id);
-                                Navigator.popUntil(
-                                  context,
-                                  ModalRoute.withName(
-                                      CustomersListPage.routeName),
-                                );
-                              },
+                            builder: (context) => AlertDialog(
+                              title: const Text('Konfirmasi'),
+                              content: const Text('Apakah Anda yakin ?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    if (context.mounted) {
+                                      Navigator.popUntil(
+                                        context,
+                                        ModalRoute.withName(
+                                            CustomersListPage.routeName),
+                                      );
+                                      ScaffoldMessengerState()
+                                          .hideCurrentSnackBar();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        mySnackBar.cancelSnackBar(
+                                          content:
+                                              'Semua utangnya tidak jadi dilunasin',
+                                          label: 'Okelah',
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Tidak'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    provider.deleteCustomer(id);
+                                    Navigator.popUntil(
+                                      context,
+                                      ModalRoute.withName(
+                                          CustomersListPage.routeName),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      mySnackBar.successSnackBar(
+                                        content:
+                                            'Semua utangnya berhasil dilunasin',
+                                        label: 'Mantap',
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Iya'),
+                                ),
+                              ],
                             ),
                           );
                         },
@@ -251,19 +288,32 @@ class ListTiles {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    mySnackBar.cancelSnackBar(
+                        content: 'Utang tidak jadi dilunasin', label: 'Okelah'),
+                  );
                 },
                 child: const Text('Tidak'),
               ),
               TextButton(
                 onPressed: () {
                   if (provider.daftarUtang!.length == 1) {
-                    Navigator.popUntil(context,
-                        ModalRoute.withName(CustomersListPage.routeName));
                     provider.deleteDebt(idPelanggan);
                     provider.deleteCustomerIfNoDebtAnymore(idPelanggan);
+                    Navigator.popUntil(context,
+                        ModalRoute.withName(CustomersListPage.routeName));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      mySnackBar.successSnackBar(
+                          content: 'Semua utangnya berhasil dilunasin',
+                          label: 'Mantap'),
+                    );
                   } else {
                     provider.deleteDebt(id);
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      mySnackBar.successSnackBar(
+                          content: 'Utang berhasil dilunasin', label: 'Mantap'),
+                    );
                   }
                 },
                 child: const Text('Iya'),

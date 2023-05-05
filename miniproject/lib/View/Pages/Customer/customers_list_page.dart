@@ -21,12 +21,17 @@ class _CustomersListPageState extends State<CustomersListPage> {
 
   provider(BuildContext context) {
     final provider = Provider.of<CustomerViewModel>(context, listen: false);
-    provider.getAllCustomers();
+    provider.readCustomers();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    provider(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    provider(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Pelanggan'),
@@ -44,7 +49,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
         padding: const EdgeInsets.all(24),
         child: Consumer<CustomerViewModel>(
           builder: (context, customerProvider, _) {
-            customerProvider.getAllCustomers();
+            customerProvider.readCustomers();
             if (customerProvider.daftarPelanggan == null) {
               return Center(
                 child: myLoadingAnimation.stretchedDots(),
@@ -52,8 +57,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
             }
             if (customerProvider.daftarPelanggan!.isEmpty) {
               return Center(
-                child:
-                    Lottie.asset('assets/lotties/131033-no-data-folder.json'),
+                child: Lottie.asset('assets/lotties/85023-no-data.json'),
               );
             } else {
               return ListView.separated(
@@ -62,20 +66,20 @@ class _CustomersListPageState extends State<CustomersListPage> {
                 itemBuilder: (context, index) {
                   //format tanggal
                   final DateTime dateTime = DateTime.parse(
-                      customerProvider.daftarPelanggan![index]['created_at']);
+                      customerProvider.daftarPelanggan![index].createdAt!);
                   final String tanggal =
                       myFormatter.formatTanggal.format(dateTime);
                   //format mata uang
                   final int currency =
-                      customerProvider.daftarPelanggan![index]['batas_utang'];
+                      customerProvider.daftarPelanggan![index].batasUtang!;
                   final String uang = myFormatter.formatUang.format(currency);
                   return myListTile.customersListTile(
                     context,
-                    customerProvider.daftarPelanggan![index]['nama'],
+                    customerProvider.daftarPelanggan![index].nama!,
                     uang,
                     tanggal,
-                    customerProvider.daftarPelanggan![index]['id'],
-                    customerProvider.daftarPelanggan![index]['batas_utang'],
+                    customerProvider.daftarPelanggan![index].id!,
+                    customerProvider.daftarPelanggan![index].batasUtang!,
                   );
                 },
                 separatorBuilder: ((context, index) {

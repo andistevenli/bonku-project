@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   hexcolor: ^3.0.1
-  supabase_flutter: ^1.8.1
+  supabase_flutter: ^1.8.0
   provider: ^6.0.5
   intl: ^0.18.1
   loading_animation_widget: ^1.2.0+4
@@ -62,7 +62,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/logos/logo_Bonku_portrait.png
+  image: assets/logos/logo_Bonku.png
   android: true
   ios: true
   web: true

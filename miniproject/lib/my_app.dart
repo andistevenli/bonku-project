@@ -15,17 +15,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialColor myAppColor = const MaterialColor(0xFF6D67E4, <int, Color>{
-      50: Color(0xFF6D67E4),
-      100: Color(0xFF6D67E4),
-      200: Color(0xFF6D67E4),
-      300: Color(0xFF6D67E4),
-      400: Color(0xFF6D67E4),
-      500: Color(0xFF6D67E4),
-      600: Color(0xFF6D67E4),
-      700: Color(0xFF6D67E4),
-      800: Color(0xFF6D67E4),
-      900: Color(0xFF6D67E4),
+    MaterialColor myAppColor = const MaterialColor(0xFF2C5AD2, <int, Color>{
+      50: Color(0xFF2C5AD2),
+      100: Color(0xFF2C5AD2),
+      200: Color(0xFF2C5AD2),
+      300: Color(0xFF2C5AD2),
+      400: Color(0xFF2C5AD2),
+      500: Color(0xFF2C5AD2),
+      600: Color(0xFF2C5AD2),
+      700: Color(0xFF2C5AD2),
+      800: Color(0xFF2C5AD2),
+      900: Color(0xFF2C5AD2),
     });
     return MultiProvider(
       providers: [
