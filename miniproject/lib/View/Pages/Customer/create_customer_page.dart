@@ -39,6 +39,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CustomerViewModel>(context, listen: false);
+    provider.readCustomers();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah Data Pelanggan'),
@@ -70,6 +71,11 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                   if (value == null || value.isEmpty) {
                     return 'Nama tidak boleh kosong';
                   } else {
+                    for (int i = 0; i < provider.daftarPelanggan!.length; i++) {
+                      if (value == provider.daftarPelanggan![i].nama) {
+                        return 'Nama ini sudah pernah ditambahkan';
+                      }
+                    }
                     List<String> word = value.split(' ');
                     for (int i = 0; i < word.length; i++) {
                       if (word[i].substring(0, 1) !=

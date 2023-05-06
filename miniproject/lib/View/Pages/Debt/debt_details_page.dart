@@ -47,7 +47,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: ListView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +119,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                 );
               }
               return ListView.separated(
-                physics: const BouncingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: debtProvider.daftarUtang!.length,
                 itemBuilder: (context, index) {

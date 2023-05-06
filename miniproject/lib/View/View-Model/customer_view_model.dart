@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:miniproject/Model/customer_model.dart';
 import 'package:miniproject/Model/helper/supabase_helper_customer.dart';
 
+import '../../Model/formatter.dart';
+
 class CustomerViewModel with ChangeNotifier {
+  final Formatter myFormatter = Formatter();
   List<dynamic> pelanggan = [];
   List<CustomerModel>? daftarPelanggan;
 
@@ -19,8 +22,22 @@ class CustomerViewModel with ChangeNotifier {
     return daftarPelanggan!;
   }
 
+  Future<List<CustomerModel>> getCustomersBySearch(String nama) async {
+    pelanggan = await _supabaseHelperCustomer.readBySearch(nama);
+    daftarPelanggan = [];
+    for (var element in pelanggan) {
+      daftarPelanggan!.add(CustomerModel.fromJson(element));
+    }
+    return daftarPelanggan!;
+  }
+
   Future<void> readCustomers() async {
     daftarPelanggan = await getAllCustomers();
+    notifyListeners();
+  }
+
+  Future<void> readCustomersBySearch(String nama) async {
+    daftarPelanggan = await getCustomersBySearch(nama);
     notifyListeners();
   }
 

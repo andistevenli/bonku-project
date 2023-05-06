@@ -45,6 +45,14 @@ class SupabaseHelperCustomer {
         .order('created_at', ascending: false);
   }
 
+  Future<List<dynamic>> readBySearch(String nama) async {
+    return await supabase
+        .from('pelanggan')
+        .select()
+        .like('nama', '%$nama%')
+        .order('created_at', ascending: false);
+  }
+
   ///mendapatkan semua id dari tabel 'pelanggan'.
   Future<List<dynamic>> captureAllId() async {
     final List<dynamic> daftarId =

@@ -97,4 +97,24 @@ class Buttons {
       ),
     );
   }
+
+  SizedBox textButton({
+    required bool active,
+    required double width,
+    required Color color,
+    required String label,
+    required void Function()? onPressedEvent,
+  }) {
+    return SizedBox(
+      width: width,
+      child: TextButton(
+        onPressed: onPressedEvent,
+        child: Text(
+          'Hapus',
+          style: TextStyle(
+              color: active ? myColors.detailTextColor : myColors.subInfoColor),
+        ),
+      ),
+    );
+  }
 }

@@ -126,7 +126,7 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(
                 height: 20,
               ),
-              myButton.primaryButton(
+              myButton.secondaryButton(
                 context: context,
                 onPressedEvent: () {
                   Navigator.pushNamed(context, CustomersListPage.routeName);
@@ -137,7 +137,7 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(
                 height: 20,
               ),
-              myButton.secondaryButton(
+              myButton.primaryButton(
                 context: context,
                 onPressedEvent: () {
                   Navigator.pushNamed(context, CreateCustomerPage.routeName);

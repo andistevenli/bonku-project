@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:miniproject/Model/formatter.dart';
 import 'package:miniproject/Model/helper/supabase_helper_transaction.dart';
 import 'package:miniproject/Model/transaction_model.dart';
 
 class DebtViewModel with ChangeNotifier {
+  final Formatter myFormatter = Formatter();
   List<dynamic> utang = [];
   List<TransactionModel>? daftarUtang;
   int totalUtang = 0;

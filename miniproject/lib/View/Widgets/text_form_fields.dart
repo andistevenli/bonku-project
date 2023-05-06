@@ -4,6 +4,56 @@ import 'package:miniproject/View/Widgets/my_colors.dart';
 class TextFormFields {
   final MyColors myColors = MyColors();
 
+  SizedBox dateTimeTextFormField({
+    required double width,
+    required bool enabled,
+    required TextEditingController textEditingController,
+  }) {
+    return SizedBox(
+      width: width,
+      child: TextFormField(
+        enabled: enabled,
+        controller: textEditingController,
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.calendar_month),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SizedBox searchTextFormField({
+    required double width,
+    required bool enabled,
+    required TextEditingController textEditingController,
+    required String? Function(String?)? validator,
+    required void Function(String)? onChangedEvent,
+  }) {
+    return SizedBox(
+      width: width,
+      child: TextFormField(
+        enabled: enabled,
+        controller: textEditingController,
+        keyboardType: TextInputType.name,
+        autocorrect: false,
+        enableSuggestions: false,
+        decoration: InputDecoration(
+          errorMaxLines: 2,
+          hintMaxLines: 2,
+          hintText: 'Ketikkan nama pelanggan',
+          prefixIcon: const Icon(Icons.search),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        validator: validator,
+        onChanged: onChangedEvent,
+      ),
+    );
+  }
+
   TextFormField textFormField({
     required bool enabled,
     required TextEditingController textEditingController,
