@@ -5,7 +5,7 @@ class SupabaseHelperDashboard {
   List<dynamic> daftarSemuaUtang = [];
   List<dynamic> daftarSemuaPelanggan = [];
 
-  ///menghitung nilai dari total utang semua pelanggan dari tabel 'transaksi'.
+  ///method read untuk menghitung total utang keseluruhan pada kolom utang tabel 'transaksi'.
   Future<int> readDebtSum() async {
     int utang = 0;
     daftarSemuaUtang = await supabase.from('transaksi').select('utang');
@@ -17,7 +17,7 @@ class SupabaseHelperDashboard {
     return utang;
   }
 
-  ///menghitung nilai dari total pelanggan yang berutang dari tabel 'pelanggan'.
+  ///method read untuk menghitung total pelanggan keseluruhan pada tabel 'pelanggan'.
   Future<int> readCustomerSum() async {
     daftarSemuaPelanggan = await supabase.from('pelanggan').select();
     final int pelanggan = daftarSemuaPelanggan.length;

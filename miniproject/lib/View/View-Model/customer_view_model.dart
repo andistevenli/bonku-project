@@ -12,7 +12,7 @@ class CustomerViewModel with ChangeNotifier {
   final SupabaseHelperCustomer _supabaseHelperCustomer =
       SupabaseHelperCustomer();
 
-  ///mengembalikan data yang ada pada tabel 'pelanggan'.
+  ///mendapatkan semua data pelanggan dan mengembalikan data pelanggan.
   Future<List<CustomerModel>> getAllCustomers() async {
     pelanggan = await _supabaseHelperCustomer.read();
     daftarPelanggan = [];
@@ -22,6 +22,7 @@ class CustomerViewModel with ChangeNotifier {
     return daftarPelanggan!;
   }
 
+  ///mendapatkan data pelanggan berdasarkan kata kunci pada search bar dan mengembalikan data pelanggan.
   Future<List<CustomerModel>> getCustomersBySearch(String nama) async {
     pelanggan = await _supabaseHelperCustomer.readBySearch(nama);
     daftarPelanggan = [];
@@ -31,27 +32,32 @@ class CustomerViewModel with ChangeNotifier {
     return daftarPelanggan!;
   }
 
+  ///prosedur baca semua data pelanggan.
   Future<void> readCustomers() async {
     daftarPelanggan = await getAllCustomers();
     notifyListeners();
   }
 
+  //prosedur baca data pelanggan berdasarkan kata kunci pada search bar.
   Future<void> readCustomersBySearch(String nama) async {
     daftarPelanggan = await getCustomersBySearch(nama);
     notifyListeners();
   }
 
+  ///prosedur tambah data pelanggan.
   Future<void> createCustomer(
       String nama, int batasUtang, String deskripsi, int utang) async {
     await _supabaseHelperCustomer.create(nama, batasUtang, deskripsi, utang);
     notifyListeners();
   }
 
+  ///prosedur mengubah data pelanggan.
   Future<void> updateCustomer(int id, String nama, int batasUtang) async {
     await _supabaseHelperCustomer.update(id, nama, batasUtang);
     notifyListeners();
   }
 
+  ///prosedur menghapus data pelanggan.
   Future<void> deleteCustomer(int id) async {
     await _supabaseHelperCustomer.delete(id);
     notifyListeners();

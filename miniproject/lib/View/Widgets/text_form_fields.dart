@@ -37,12 +37,12 @@ class TextFormFields {
         enabled: enabled,
         controller: textEditingController,
         keyboardType: TextInputType.name,
+        textCapitalization: TextCapitalization.words,
         autocorrect: false,
         enableSuggestions: false,
         decoration: InputDecoration(
           errorMaxLines: 2,
-          hintMaxLines: 2,
-          hintText: 'Ketikkan nama pelanggan',
+          hintText: 'Ketikkan nama',
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

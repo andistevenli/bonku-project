@@ -6,7 +6,6 @@ import 'package:miniproject/View/Widgets/buttons.dart';
 import 'package:miniproject/View/Widgets/my_colors.dart';
 import 'package:miniproject/View/Widgets/text_form_fields.dart';
 import 'package:provider/provider.dart';
-
 import '../../Widgets/snack_bars.dart';
 import '../Customer/customers_list_page.dart';
 
@@ -41,11 +40,11 @@ class _AddDebtState extends State<AddDebtPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<DebtViewModel>(context, listen: false);
     final args = ModalRoute.of(context)!.settings.arguments as AddDebtArguments;
-    provider.debtSum(args.idPelanggan);
     final int currencyUtang = provider.totalUtang;
     final String utang = myFormatter.formatUang.format(currencyUtang);
     final int currencyBatasUtang = args.batasUtang;
     final String batasUtang = myFormatter.formatUang.format(currencyBatasUtang);
+    provider.debtSum(args.idPelanggan);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah Utang'),
@@ -137,12 +136,14 @@ class _AddDebtState extends State<AddDebtPage> {
                   if (value == null || value.isEmpty) {
                     return 'Utang tidak boleh kosong';
                   } else {
-                    if (int.parse(_utangController.text) + provider.totalUtang >
-                        args.batasUtang) {
-                      return 'tidak boleh melebihi batas utang';
-                    }
                     if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                       return 'hanya boleh diisi angka';
+                    } else {
+                      if (int.parse(_utangController.text) +
+                              provider.totalUtang >
+                          args.batasUtang) {
+                        return 'tidak boleh melebihi batas utang';
+                      }
                     }
                   }
                   return null;

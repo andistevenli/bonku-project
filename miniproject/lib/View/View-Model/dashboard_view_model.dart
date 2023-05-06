@@ -8,11 +8,13 @@ class DashboardViewModel with ChangeNotifier {
   final SupabaseHelperDashboard _supabaseHelperDashboard =
       SupabaseHelperDashboard();
 
+  //prosedur menghitung total utang keseluruhan.
   Future<void> debtSum() async {
     totalUtang = await _supabaseHelperDashboard.readDebtSum();
     notifyListeners();
   }
 
+  ///prosedur menghitung total pelanggan keseluruhan.
   Future<void> customerSum() async {
     totalPelanggan = await _supabaseHelperDashboard.readCustomerSum();
     notifyListeners();

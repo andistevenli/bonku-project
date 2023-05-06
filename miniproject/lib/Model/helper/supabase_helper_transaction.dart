@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseHelperTransaction {
   final supabase = Supabase.instance.client;
 
-  ///menambahkan utang pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
+  ///method create record ke tabel 'transaksi'.
   Future<void> create(
     int idPelanggan,
     String deskripsi,
@@ -16,18 +16,18 @@ class SupabaseHelperTransaction {
     });
   }
 
-  ///menghapus data pada tabel 'pelanggan' jika semua utang telah lunas
+  ///method delete record pada tabel 'transaksi' dan pada tabel 'pelanggan'.
   Future<void> deleteCustomerAndTransaction(int id) async {
     await supabase.from('transaksi').delete().eq('id_pelanggan', id);
     await supabase.from('pelanggan').delete().eq('id', id);
   }
 
-  ///menghapus data pada tabel 'transaksi'
+  ///method delete record pada tabel 'transaksi'.
   Future<void> deleteTransaction(int id) async {
     await supabase.from('transaksi').delete().eq('id', id);
   }
 
-  ///mendapatkan semua data yang ada pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
+  ///method read semua record pada tabel 'transaksi' berdasarkan kolom id_pelanggan.
   Future<List<dynamic>> read(int id) async {
     return await supabase
         .from('transaksi')
@@ -36,7 +36,7 @@ class SupabaseHelperTransaction {
         .order('created_at', ascending: true);
   }
 
-  ///menghitung nilai dari total utang pada tabel 'transaksi' berdasarkan id pada tabel 'pelanggan'.
+  ///untuk mendapatkan total utang berdasarkan kolom id_pelanggan pada tabel 'transaksi'.
   Future sum(int id) async {
     int total = 0;
     final List<dynamic> daftarSemuaUtangPerId =

@@ -24,7 +24,6 @@ class _ChangeCustomerState extends State<ChangeCustomerPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _batasUtangController = TextEditingController();
-
   final TextFormFields myTextFormField = TextFormFields();
   final Buttons myButton = Buttons();
   final MyColors myColors = MyColors();

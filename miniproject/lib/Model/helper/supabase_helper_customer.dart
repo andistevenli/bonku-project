@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseHelperCustomer {
   final supabase = Supabase.instance.client;
 
-  ///menambahkan data ke tabel 'pelanggan' dan tabel 'transaksi'.
+  ///method create record ke tabel 'pelanggan' dan tabel 'transaksi'.
   Future<void> create(
     String nama,
     int batasUtang,
@@ -23,7 +23,7 @@ class SupabaseHelperCustomer {
     });
   }
 
-  ///memperbaharui data pada tabel 'pelanggan'
+  ///method update record ke tabel 'pelanggan'.
   Future<void> update(int id, String nama, int batasUtang) async {
     await supabase.from('pelanggan').update({
       'nama': nama,
@@ -31,13 +31,13 @@ class SupabaseHelperCustomer {
     }).eq('id', id);
   }
 
-  ///menghapus data pada tabel 'pelanggan'
+  ///method delete record pada tabel 'transaksi' dan tabel 'pelanggan'.
   Future<void> delete(int id) async {
     await supabase.from('transaksi').delete().eq('id_pelanggan', id);
     await supabase.from('pelanggan').delete().eq('id', id);
   }
 
-  ///mendapatkan semua data yang ada pada tabel 'pelanggan'.
+  ///method read semua record pada tabel 'pelanggan'.
   Future<List<dynamic>> read() async {
     return await supabase
         .from('pelanggan')
@@ -45,6 +45,7 @@ class SupabaseHelperCustomer {
         .order('created_at', ascending: false);
   }
 
+  ///method read record pada tabel 'pelanggan' berdasarkan kata kunci yang diketikkan pada search bar
   Future<List<dynamic>> readBySearch(String nama) async {
     return await supabase
         .from('pelanggan')
@@ -53,14 +54,14 @@ class SupabaseHelperCustomer {
         .order('created_at', ascending: false);
   }
 
-  ///mendapatkan semua id dari tabel 'pelanggan'.
+  ///untuk mendapatkan semua id dari tabel 'pelanggan'.
   Future<List<dynamic>> captureAllId() async {
     final List<dynamic> daftarId =
         await supabase.from('pelanggan').select('id');
     return daftarId;
   }
 
-  ///mendapatkan id terakhir dari tabel 'pelanggan'.
+  ///untuk mendapatkan id terakhir dari tabel 'pelanggan'.
   Future<int> getLastId() async {
     List<dynamic> daftarId = await captureAllId();
     int lastId = 0;

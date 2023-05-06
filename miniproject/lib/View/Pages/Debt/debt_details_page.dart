@@ -118,33 +118,37 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                   child: myLoadingAnimation.fourRotatingDots(),
                 );
               }
-              return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: debtProvider.daftarUtang!.length,
-                itemBuilder: (context, index) {
-                  //ubah format uang
-                  final int currency = debtProvider.daftarUtang![index].utang!;
-                  final String utang = myFormatter.formatUang.format(currency);
-                  //ubah format tanggal
-                  final DateTime dateTime = DateTime.parse(
-                      debtProvider.daftarUtang![index].createdAt!);
-                  final String tanggal =
-                      myFormatter.formatTanggal.format(dateTime);
-                  return myListTile.debtDetailsListTile(
-                    context,
-                    debtProvider.daftarUtang![index].deskripsi!,
-                    utang,
-                    tanggal,
-                    debtProvider.daftarUtang![index].idPelanggan!,
-                    debtProvider.daftarUtang![index].id!,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                },
+              return Material(
+                child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: debtProvider.daftarUtang!.length,
+                  itemBuilder: (context, index) {
+                    //ubah format uang
+                    final int currency =
+                        debtProvider.daftarUtang![index].utang!;
+                    final String utang =
+                        myFormatter.formatUang.format(currency);
+                    //ubah format tanggal
+                    final DateTime dateTime = DateTime.parse(
+                        debtProvider.daftarUtang![index].createdAt!);
+                    final String tanggal =
+                        myFormatter.formatTanggal.format(dateTime);
+                    return myListTile.debtDetailsListTile(
+                      context,
+                      debtProvider.daftarUtang![index].deskripsi!,
+                      utang,
+                      tanggal,
+                      debtProvider.daftarUtang![index].idPelanggan!,
+                      debtProvider.daftarUtang![index].id!,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 10,
+                    );
+                  },
+                ),
               );
             }),
           ],

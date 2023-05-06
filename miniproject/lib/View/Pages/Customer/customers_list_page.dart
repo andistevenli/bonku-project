@@ -70,7 +70,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
                     children: [
                       myTextFormField.searchTextFormField(
                         width:
-                            MediaQuery.of(context).size.width - (24 * 2) - 70,
+                            MediaQuery.of(context).size.width - (24 * 2) - 90,
                         enabled: true,
                         textEditingController: _seachTextEditingController,
                         validator: (value) {
@@ -100,7 +100,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
                       ),
                       myButton.textButton(
                         active: active,
-                        width: 60,
+                        width: 80,
                         color: myColor.detailTextColor,
                         label: 'Hapus',
                         onPressedEvent: active
@@ -131,35 +131,38 @@ class _CustomersListPageState extends State<CustomersListPage> {
                     child: Lottie.asset('assets/lotties/85023-no-data.json'),
                   );
                 } else {
-                  return ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      //format tanggal
-                      final DateTime dateTime = DateTime.parse(
-                          customerProvider.daftarPelanggan![index].createdAt!);
-                      final String tanggal =
-                          myFormatter.formatTanggal.format(dateTime);
-                      //format mata uang
-                      final int currency =
-                          customerProvider.daftarPelanggan![index].batasUtang!;
-                      final String uang =
-                          myFormatter.formatUang.format(currency);
-                      return myListTile.customersListTile(
-                        context,
-                        customerProvider.daftarPelanggan![index].nama!,
-                        uang,
-                        tanggal,
-                        customerProvider.daftarPelanggan![index].id!,
-                        customerProvider.daftarPelanggan![index].batasUtang!,
-                      );
-                    },
-                    separatorBuilder: ((context, index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    }),
-                    itemCount: customerProvider.daftarPelanggan!.length,
+                  return Material(
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        //format tanggal
+                        final DateTime dateTime = DateTime.parse(
+                            customerProvider
+                                .daftarPelanggan![index].createdAt!);
+                        final String tanggal =
+                            myFormatter.formatTanggal.format(dateTime);
+                        //format mata uang
+                        final int currency = customerProvider
+                            .daftarPelanggan![index].batasUtang!;
+                        final String uang =
+                            myFormatter.formatUang.format(currency);
+                        return myListTile.customersListTile(
+                          context,
+                          customerProvider.daftarPelanggan![index].nama!,
+                          uang,
+                          tanggal,
+                          customerProvider.daftarPelanggan![index].id!,
+                          customerProvider.daftarPelanggan![index].batasUtang!,
+                        );
+                      },
+                      separatorBuilder: ((context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      }),
+                      itemCount: customerProvider.daftarPelanggan!.length,
+                    ),
                   );
                 }
               },

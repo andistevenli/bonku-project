@@ -76,7 +76,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                         return 'Nama ini sudah pernah ditambahkan';
                       }
                     }
-                    List<String> word = value.split(' ');
+                    final List<String> word = value.split(' ');
                     for (int i = 0; i < word.length; i++) {
                       if (word[i].substring(0, 1) !=
                           word[i].substring(0, 1).toUpperCase()) {
@@ -136,12 +136,13 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
                   if (value == null || value.isEmpty) {
                     return 'Utang tidak boleh kosong';
                   } else {
-                    if (int.parse(_utangController.text) >
-                        int.parse(_batasUtangController.text)) {
-                      return 'tidak boleh melebihi batas utang';
-                    }
                     if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                       return 'hanya boleh diisi angka';
+                    } else {
+                      if (int.parse(_utangController.text) >
+                          int.parse(_batasUtangController.text)) {
+                        return 'tidak boleh melebihi batas utang';
+                      }
                     }
                   }
                   return null;
