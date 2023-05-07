@@ -51,7 +51,9 @@ class ListTiles {
             ),
           ),
           builder: (context) {
-            return Wrap(
+            return ListView(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
               children: [
                 Container(
                   margin: const EdgeInsets.all(24),

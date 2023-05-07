@@ -46,7 +46,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+        padding: const EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: ListView(
