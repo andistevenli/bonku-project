@@ -132,6 +132,7 @@ class _CustomersListPageState extends State<CustomersListPage> {
                   );
                 } else {
                   return Material(
+                    color: Colors.white,
                     child: ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,

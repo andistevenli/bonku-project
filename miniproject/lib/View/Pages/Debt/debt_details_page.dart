@@ -119,6 +119,7 @@ class _DebtDetailsState extends State<DebtDetailsPage> {
                 );
               }
               return Material(
+                color: Colors.white,
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

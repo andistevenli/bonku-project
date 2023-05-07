@@ -4,7 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseService {
   initSupabase() async {
     WidgetsFlutterBinding.ensureInitialized();
-
     await Supabase.initialize(
       url: 'https://vzrlymtevysbompwvsbk.supabase.co',
       anonKey:

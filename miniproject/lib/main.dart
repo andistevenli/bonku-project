@@ -3,10 +3,8 @@ import 'package:miniproject/Model/Services/supabase_service.dart';
 
 import 'my_app.dart';
 
-void main() {
+void main() async {
   final SupabaseService supabaseService = SupabaseService();
-
-  supabaseService.initSupabase();
-
+  await supabaseService.initSupabase();
   runApp(const MyApp());
 }
