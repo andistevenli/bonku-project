@@ -87,9 +87,6 @@ class _CustomersListPageState extends State<CustomersListPage> {
                             if (value.isEmpty) {
                               active = false;
                               customerProvider.readCustomers();
-                            } else if (value == '') {
-                              active = false;
-                              customerProvider.readCustomers();
                             } else {
                               active = true;
                               customerProvider.readCustomersBySearch(
@@ -124,8 +121,6 @@ class _CustomersListPageState extends State<CustomersListPage> {
             ),
             Consumer<CustomerViewModel>(
               builder: (context, customerProvider, _) {
-                customerProvider.readCustomers();
-                active = false;
                 if (customerProvider.daftarPelanggan == null) {
                   return Center(
                     child: myLoadingAnimation.stretchedDots(),
